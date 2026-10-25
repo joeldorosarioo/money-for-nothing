@@ -64,24 +64,24 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
   return (
     <React.Fragment>
       <div className="block desktop:grid desktop:grid-cols-[48%_minmax(0,1fr)] desktop:gap-6 wide:grid-cols-[573px_1fr] wide:gap-8">
-        <div className="relative block h-107.5 min-w-0 bg-[linear-gradient(137.64deg,var(--card)_0%,var(--raised)_100%)] px-7 pt-16.5 tablet:h-137.5 desktop:flex desktop:h-auto desktop:gap-4 desktop:bg-none desktop:p-0 wide:gap-7">
-          <div className="hidden w-18 shrink-0 flex-col gap-4 desktop:flex wide:w-25">
+        <div className="relative block h-108 min-w-0 bg-[linear-gradient(137.64deg,var(--card)_0%,var(--raised)_100%)] px-7 pt-16 tablet:h-138 desktop:flex desktop:h-auto desktop:gap-4 desktop:bg-none desktop:p-0 wide:gap-6">
+          <div className="hidden w-18 shrink-0 flex-col gap-4 desktop:flex wide:w-25" aria-hidden="true">
             {[0, 1, 2, 3].map((position) => (
-              <button key={position} aria-label={"Ver imagem " + (position + 1).toString() + " de " + title}>
+              <div key={position}>
                 <ArtworkImage
                   sizes="(min-width: 1331px) 100px, 72px"
-                  className="size-18 rounded-[5px] object-cover wide:size-25"
+                  className="size-18 rounded-artwork object-cover wide:size-25"
                   src={nft.image}
                   alt=""
                 />
-              </button>
+              </div>
             ))}
           </div>
 
-          <div className="relative m-0 h-auto w-full overflow-hidden rounded-3xl p-0 desktop:mt-0.5 desktop:flex-1 desktop:rounded-[5px] desktop:bg-card desktop:p-5 wide:h-111 wide:w-111 wide:flex-initial">
+          <div className="relative m-0 h-auto w-full overflow-hidden rounded-artwork p-0 desktop:mt-0 desktop:flex-1 desktop:rounded-artwork desktop:bg-card desktop:p-5 wide:h-111 wide:w-111 wide:flex-initial">
             <ArtworkImage
               sizes={detailArtworkSizes}
-              className="aspect-square h-auto w-full rounded-3xl object-cover desktop:rounded-[22px] wide:size-101"
+              className="aspect-square h-auto w-full rounded-artwork object-cover desktop:rounded-artwork wide:size-101"
               src={nft.image}
               alt={title}
               fetchPriority="high"
@@ -89,7 +89,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
 
             <Dialog>
               <DialogTrigger asChild>
-                <button className="absolute top-3 right-3 hidden rounded-full bg-raised p-1.25 desktop:block" aria-label="Ampliar imagem do NFT">
+                <button className="absolute top-3 right-3 hidden size-11 items-center justify-center rounded-full bg-raised desktop:flex" aria-label="Ampliar imagem do NFT">
                   <img src="/assets/bd8c9.svg" alt="" />
                 </button>
               </DialogTrigger>
@@ -99,7 +99,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
                 <DialogDescription className="sr-only">Imagem ampliada da obra.</DialogDescription>
                 <img className="w-full" src={nft.image} alt={title} />
 
-                <DialogClose className="absolute top-2 right-3 w-8 text-[28px] leading-8" aria-label="Fechar imagem">
+                <DialogClose className="absolute top-2 right-2 flex size-11 items-center justify-center rounded-control bg-raised text-[28px] leading-8" aria-label="Fechar imagem">
                   ×
                 </DialogClose>
               </DialogContent>
@@ -108,7 +108,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
 
           <Link
             to="/"
-            className="absolute top-5.75 left-7 flex size-9 items-center justify-center rounded-full border border-border bg-raised desktop:hidden [&_img]:rotate-90"
+            className="absolute top-4 left-6 flex size-11 items-center justify-center rounded-full border border-input bg-raised desktop:hidden [&_img]:rotate-90"
             aria-label="Voltar ao catálogo"
           >
             <img src="/assets/0e8e8.svg" alt="" />
@@ -119,16 +119,16 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
           </FavoriteButton>
         </div>
 
-        <div className="relative -mt-9.5 min-w-0 rounded-t-4xl bg-card px-6 pt-8 pb-5 desktop:mt-0 desktop:rounded-none desktop:bg-transparent desktop:p-0">
+        <div className="relative -mt-8 min-w-0 rounded-t-sheet bg-card px-5 py-6 tablet:px-6 desktop:mt-0 desktop:rounded-none desktop:bg-transparent desktop:p-0">
           <div className="flex items-center justify-between gap-2 desktop:block">
             <h1 className="text-xl leading-6 font-bold desktop:text-[28px] desktop:leading-9">{title}</h1>
 
-            <span className="block rounded-4xl border border-primary px-1.5 py-0.75 text-sm whitespace-nowrap text-foreground desktop:hidden [&>span]:text-muted-foreground">
+            <span className="block rounded-control border border-primary px-2 py-1 text-sm whitespace-nowrap text-foreground desktop:hidden [&>span]:text-muted-foreground">
               ★ 4.8<span>(19)</span>
             </span>
           </div>
 
-          <div className="mt-3.25 hidden justify-between border-b border-border pb-3 desktop:flex">
+          <div className="mt-4 hidden justify-between border-b border-border pb-3 desktop:flex">
             <strong className="text-[22px] leading-5 text-accent">{edition.unitPrice} ETH</strong>
 
             <span className="flex items-center gap-1 text-[15px] whitespace-nowrap desktop:[&>span:last-child]:text-[11px] wide:[&>span:last-child]:text-[15px]">
@@ -144,7 +144,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
             </span>
           </div>
 
-          <div className="mt-3 min-h-17.75 desktop:min-h-23.5">
+          <div className="mt-6">
             <h2 className="mb-3 hidden text-[15px] leading-4 font-bold desktop:block">Sobre este NFT:</h2>
             <p className="hidden text-sm leading-6 text-secondary desktop:block">{nft.description}</p>
 
@@ -154,13 +154,13 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
             </p>
           </div>
 
-          <fieldset className="mt-4 flex gap-3 border-0 p-0 desktop:mt-3.5 desktop:gap-1">
+          <fieldset className="mt-6 flex flex-wrap gap-2 border-0 p-0">
             <legend className="mb-2 text-[15px] leading-4 font-bold desktop:mb-3">Edição:</legend>
 
             {[...nft.editions].reverse().map((option) => (
               <label className={cn(
-                "cursor-pointer rounded-[50%] border border-border px-1.5 py-1.25 text-sm leading-4 text-secondary",
-                "has-focus-visible:outline-2 has-focus-visible:outline-accent desktop:px-1.25 desktop:py-0.75",
+                "inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-control border border-input px-2 text-sm leading-5 text-secondary",
+                "has-focus-visible:outline-2 has-focus-visible:outline-accent has-focus-visible:outline-offset-2 has-disabled:cursor-not-allowed has-disabled:opacity-45",
                 option.id === edition.id && "border-primary text-accent",
               )} key={option.id}>
                 <input
@@ -178,14 +178,14 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
             ))}
 
             <span
-              className="cursor-pointer rounded-[50%] border border-border px-1.5 py-1.25 text-sm leading-4 text-secondary desktop:px-1.25 desktop:py-0.75"
+              className="inline-flex min-h-11 items-center px-2 text-sm leading-5 text-muted-foreground"
               title="Edição aberta indisponível neste NFT"
             >
               ABERTA
             </span>
           </fieldset>
 
-          <div className="my-3 hidden items-center gap-2 desktop:flex *:data-[slot=button]:min-w-32.5">
+          <div className="my-6 hidden flex-wrap items-center gap-3 desktop:flex *:data-[slot=button]:min-w-32.5">
             <QuantityControl {...quantityProps} className="mr-auto" />
 
             <Button
@@ -201,12 +201,12 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
             </FavoriteButton>
           </div>
 
-          <div className="mt-3 flex flex-col gap-3 text-[15px] leading-5 text-secondary desktop:mt-0">
+          <div className="mt-6 flex flex-col gap-3 text-[15px] leading-5 text-secondary desktop:mt-0">
             <p>ID do token: #{nft.tokenId.padStart(4, "0")}</p><p>Coleção: Kurio Apes</p>
             <p>Atributos: Óculos, Esmeralda, Raro</p>
           </div>
 
-          <div className="mt-3 hidden items-center gap-2 text-[15px] desktop:flex [&_strong]:font-bold">
+          <div className="mt-6 hidden flex-wrap items-center gap-2 text-[15px] desktop:flex [&_strong]:font-bold [&_button]:flex [&_button]:size-11 [&_button]:items-center [&_button]:justify-center [&_a]:flex [&_a]:size-11 [&_a]:items-center [&_a]:justify-center">
             <strong>Compartilhar este NFT:</strong>
 
             <button aria-label="Copiar link do NFT" onClick={() => {
@@ -232,7 +232,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
           </div>
 
           <p
-            className="mt-2 min-h-4.5 text-[13px] text-accent empty:hidden [&_a]:underline max-desktop:fixed max-desktop:right-4 max-desktop:bottom-43.75 max-desktop:left-4 max-desktop:z-35 max-desktop:rounded-lg max-desktop:border max-desktop:border-panel-border max-desktop:bg-raised max-desktop:p-2.5"
+            className="mt-2 min-h-4.5 text-[13px] text-accent empty:hidden [&_a]:underline max-desktop:fixed max-desktop:right-4 max-desktop:bottom-48 max-desktop:left-4 max-desktop:z-35 max-desktop:rounded-lg max-desktop:border max-desktop:border-panel-border max-desktop:bg-raised max-desktop:p-3"
             role="status"
           >
             {notice}
@@ -243,13 +243,13 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
         </div>
       </div>
 
-      <Tabs defaultValue="details" className="mt-24 hidden desktop:block">
+      <Tabs defaultValue="details" className="mt-section hidden desktop:flex">
         <TabsList aria-label="Informações do NFT">
           <TabsTrigger value="details">Detalhes do NFT</TabsTrigger>
           <TabsTrigger value="reviews">Avaliações de colecionadores (19)</TabsTrigger>
         </TabsList>
 
-        <TabsContent className="pt-3 text-sm leading-6 text-secondary [&_p+p]:mt-6 [&_dl]:mt-3 [&_dt]:mt-3 [&_dt]:font-bold [&_dt]:text-foreground [&_dt:first-child]:mt-0 [&_dd]:mt-0" value="details">
+        <TabsContent className="text-sm leading-6 text-secondary [&_p+p]:mt-6 [&_dl]:mt-3 [&_dt]:mt-3 [&_dt]:font-bold [&_dt]:text-foreground [&_dt:first-child]:mt-0 [&_dd]:mt-0" value="details">
           <p>{title} é uma obra digital 1/50 finalizada à mão da coleção Kurio Editions. Cada atributo fica armazenado nos metadados do token e verificado na Ethereum. A obra explora identidade, movimento e luz em um mundo digital sem fronteiras.</p>
           <p>A propriedade inclui a arte em alta resolução, lançamentos exclusivos para colecionadores e um registro permanente de procedência registrada na rede. Nova Sato recebe 5% de direitos autorais nas vendas secundárias, apoiando novos trabalhos e lançamentos da comunidade.</p>
 
@@ -263,12 +263,12 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
           </dl>
         </TabsContent>
 
-        <TabsContent className="pt-3 text-sm leading-6 text-secondary [&_p+p]:mt-6 [&_dl]:mt-3 [&_dt]:mt-3 [&_dt]:font-bold [&_dt]:text-foreground [&_dt:first-child]:mt-0 [&_dd]:mt-0" value="reviews">
+        <TabsContent className="text-sm leading-6 text-secondary [&_p+p]:mt-6 [&_dl]:mt-3 [&_dt]:mt-3 [&_dt]:font-bold [&_dt]:text-foreground [&_dt:first-child]:mt-0 [&_dd]:mt-0" value="reviews">
           <p>4,8 de 5 — 19 avaliações de colecionadores desta coleção.</p>
         </TabsContent>
       </Tabs>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 flex h-41 flex-col gap-5 rounded-t-sheet bg-card px-6 pt-5 pb-9 shadow-dock tablet:mx-auto tablet:max-w-150 desktop:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-30 flex flex-col gap-4 rounded-t-sheet bg-card px-5 pt-6 pb-[max(24px,env(safe-area-inset-bottom))] shadow-dock tablet:mx-auto tablet:max-w-150 desktop:hidden">
         <div className="flex items-center gap-2">
           <span className="text-[15px] text-muted-foreground">Qtd.</span>
           <QuantityControl {...quantityProps} variant="mobile" />
@@ -277,7 +277,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
 
         <div className="flex items-center gap-3">
           <Button
-            className="h-15 w-49 rounded-sheet font-bold text-primary-foreground"
+            className="h-14 flex-1 rounded-control font-bold text-primary-foreground"
             disabled={adding || edition.available === 0}
             onClick={() => { void addToCart() }}
           >
@@ -285,7 +285,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
           </Button>
 
           <Button
-            className="h-15 w-15 rounded-sheet border-border bg-raised p-5 font-bold"
+            className="size-14 rounded-control border-input bg-raised p-4 font-bold"
             variant="outline"
             aria-label="Adicionar ao carrinho"
             disabled={adding || edition.available === 0}

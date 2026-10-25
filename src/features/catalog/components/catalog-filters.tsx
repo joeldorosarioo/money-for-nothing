@@ -39,13 +39,13 @@ export function CatalogFilters ({ search, facets, updateSearch, className }: {
   }
 
   return (
-    <div className={cn("flex flex-col gap-10 bg-card p-5 [&_h2]:text-xl [&_h2]:leading-7 [&_h2]:font-bold", className)}>
-      <section className="min-h-97">
+    <div className={cn("flex flex-col gap-8 rounded-artwork bg-card p-6 [&_h2]:mb-2 [&_h2]:text-xl [&_h2]:leading-7 [&_h2]:font-bold", className)}>
+      <section>
         <h2>Coleções</h2>
 
         {categoryLabels.map(([id, label]) => (
-          <label key={id} className="flex min-h-10 cursor-pointer items-center justify-between px-3 text-[15px] leading-5 text-secondary hover:text-accent has-data-[state=checked]:text-accent has-focus-visible:outline-2 has-focus-visible:outline-accent has-focus-visible:outline-offset-2">
-            <Checkbox variant="hidden" checked={search.categories.includes(id)} onCheckedChange={(checked) => {
+          <label key={id} className="flex min-h-11 cursor-pointer items-center gap-3 rounded-control px-2 text-sm leading-5 text-muted-foreground hover:bg-raised hover:text-accent has-data-[state=checked]:font-bold has-data-[state=checked]:text-accent has-focus-visible:outline-2 has-focus-visible:outline-accent has-focus-visible:outline-offset-2">
+            <Checkbox checked={search.categories.includes(id)} onCheckedChange={(checked) => {
               updateSearch({
                 ...search, page: 1,
 
@@ -56,26 +56,17 @@ export function CatalogFilters ({ search, facets, updateSearch, className }: {
             }} />
 
             <span>{label}</span>
-            <span>({facets?.categories.find((facet) => facet.id === id)?.count ?? 0})</span>
+            <span className="ml-auto text-xs tabular-nums">({facets?.categories.find((facet) => facet.id === id)?.count ?? 0})</span>
           </label>
         ))}
       </section>
 
-      <form className="h-32.25" onSubmit={updatePrice}>
+      <form onSubmit={updatePrice}>
         <h2>Faixa de preço</h2>
 
-        <div className={cn(
-          "relative mt-2 h-7",
-          "[&_input]:pointer-events-none [&_input]:absolute [&_input]:top-2 [&_input]:left-0",
-          "[&_input]:h-1 [&_input]:w-full [&_input]:appearance-none [&_input]:bg-primary",
-          "[&_input::-webkit-slider-thumb]:pointer-events-auto [&_input::-webkit-slider-thumb]:size-4",
-          "[&_input::-webkit-slider-thumb]:cursor-grab [&_input::-webkit-slider-thumb]:appearance-none",
-          "[&_input::-webkit-slider-thumb]:rounded-full [&_input::-webkit-slider-thumb]:border",
-          "[&_input::-webkit-slider-thumb]:border-background [&_input::-webkit-slider-thumb]:bg-primary",
-          "[&_input::-moz-range-thumb]:pointer-events-auto [&_input::-moz-range-thumb]:size-4",
-          "[&_input::-moz-range-thumb]:cursor-grab [&_input::-moz-range-thumb]:rounded-full",
-          "[&_input::-moz-range-thumb]:bg-primary",
-        )}>
+        <div className="mt-3 space-y-2 [&_input]:block [&_input]:h-11 [&_input]:w-full [&_input]:accent-primary">
+          <label className="block text-sm text-muted-foreground">
+            Mínimo: {minimum.replace(".", ",")} ETH
           <input
             type="range"
             min="0.02"
@@ -85,7 +76,9 @@ export function CatalogFilters ({ search, facets, updateSearch, className }: {
             aria-label="Preço mínimo em ETH"
             onChange={(event) => { setMinimum(event.target.value) }}
           />
-
+          </label>
+          <label className="block text-sm text-muted-foreground">
+            Máximo: {maximum.replace(".", ",")} ETH
           <input
             type="range"
             min="0.02"
@@ -95,22 +88,18 @@ export function CatalogFilters ({ search, facets, updateSearch, className }: {
             aria-label="Preço máximo em ETH"
             onChange={(event) => { setMaximum(event.target.value) }}
           />
+          </label>
         </div>
 
-        <p className="mt-2 mb-3 text-[13px] text-muted-foreground">
-          Preço: {minimum.replace(".", ",")} - {maximum.replace(".", ",")} ETH
-        </p>
-
-        <Button size="small" type="submit">Aplicar</Button>
+        <Button className="mt-3" size="small" type="submit">Aplicar</Button>
       </form>
 
       <section className="min-h-37">
         <h2>Rede</h2>
 
         {networkLabels.map(([id, label]) => (
-          <label key={id} className="flex min-h-10 cursor-pointer items-center justify-between px-3 text-[15px] leading-5 text-secondary hover:text-accent has-data-[state=checked]:text-accent has-focus-visible:outline-2 has-focus-visible:outline-accent has-focus-visible:outline-offset-2">
+          <label key={id} className="flex min-h-11 cursor-pointer items-center gap-3 rounded-control px-2 text-sm leading-5 text-muted-foreground hover:bg-raised hover:text-accent has-data-[state=checked]:font-bold has-data-[state=checked]:text-accent has-focus-visible:outline-2 has-focus-visible:outline-accent has-focus-visible:outline-offset-2">
             <Checkbox
-              variant="hidden"
               checked={search.networks.includes(id)}
               onCheckedChange={(checked) => {
                 updateSearch({
@@ -123,7 +112,7 @@ export function CatalogFilters ({ search, facets, updateSearch, className }: {
             />
 
             <span>{label}</span>
-            <span>({facets?.networks.find((facet) => facet.id === id)?.count ?? 0})</span>
+            <span className="ml-auto text-xs tabular-nums">({facets?.networks.find((facet) => facet.id === id)?.count ?? 0})</span>
           </label>
         ))}
       </section>

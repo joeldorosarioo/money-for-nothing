@@ -12,91 +12,49 @@ interface NftCardProps {
   readonly presentation?: "catalog" | "related" | "cart-related" | "favorites"
 }
 
-const mobileOrders = [
-  "",
-  "",
-  "",
-  "max-tablet:order-7 max-tablet:translate-y-0",
-  "max-tablet:order-5",
-  "max-tablet:order-6",
-  "max-tablet:order-4 max-tablet:translate-y-8",
-  "max-tablet:order-8",
-  "max-tablet:order-9",
-]
-
 export function NftCard ({ nft, index = 0, presentation = "catalog" }: NftCardProps) {
   const title = nft.name + " #" + nft.tokenId
-  const portrait = nft.id === "cosmic-bloom-118"
-  const artOnly = nft.id === "golden-echo-208"
   const related = presentation !== "catalog"
 
   return (
-    <article className={cn("group relative min-w-0", !related && index % 2 === 1 && "max-tablet:translate-y-8", !related && mobileOrders[index])}>
+    <article className="group relative min-w-0">
       <Link to="/nfts/$nftId" params={{ nftId: nft.id }} aria-label={"Ver " + title} className={cn(
-        "flex h-50 items-start justify-center rounded-[18px] bg-card px-1 pt-3 pb-5",
-        "desktop:h-auto desktop:min-h-62.5 desktop:rounded-none desktop:pt-6 desktop:pb-6.5 wide:h-75 wide:min-h-0",
-
-        index === 0 && "desktop:pt-7.75",
-        index === 1 && "desktop:pt-6.25",
-        portrait && "pt-4 pb-4 desktop:pt-1.5 desktop:pr-3.5 desktop:pb-2 desktop:pl-5",
-        artOnly && "desktop:pt-7",
-        index >= 6 && "desktop:pt-5",
-        !related && index % 2 === 1 && "max-desktop:pt-5",
-        related && "desktop:h-63.75 desktop:pt-5 desktop:pb-5.75 wide:h-63.75",
-        related && index === 1 && "desktop:pt-6.25",
-        related && portrait && "desktop:pt-1 desktop:pr-2.25 desktop:pb-2 desktop:pl-5",
-        presentation === "favorites" && "desktop:aspect-square desktop:h-auto desktop:min-h-0 desktop:overflow-hidden desktop:rounded-artwork desktop:p-0 wide:h-auto",
+        "block overflow-hidden rounded-artwork bg-card p-2 transition-colors hover:bg-raised focus-visible:-outline-offset-4",
+        presentation === "favorites" && "p-0 tablet:p-0",
       )}>
         <ArtworkImage
-          sizes={related ? presentation === "favorites" ? "300px" : "211px" : catalogArtworkSizes}
+          sizes={related ? presentation === "favorites" ? "300px" : "(min-width: 1331px) 204px, calc((100vw - 232px) / 5)" : catalogArtworkSizes}
           src={nft.image}
           alt=""
           fetchPriority={related ? "auto" : "low"}
           loading={!related && index < 3 ? "eager" : "lazy"}
 
-          className={cn(
-            "aspect-square h-auto w-full rounded-artwork object-cover",
-            portrait && "h-42 rounded-[13px] desktop:h-71.5",
-            related && portrait && "desktop:h-60.75",
-            presentation === "favorites" && "desktop:h-full desktop:aspect-square desktop:rounded-none",
-          )}
+          className="aspect-square h-auto w-full rounded-artwork object-cover"
         />
       </Link>
 
       <FavoriteButton nftId={nft.id} title={title} savedIcon={
         <img className="size-5" src="/assets/d427d.svg" alt="" />
-      } className={cn(
-        "absolute top-3 right-2.5 size-7 items-center justify-center rounded-full bg-raised desktop:hidden desktop:group-hover:flex desktop:group-focus-within:flex",
-        index === 0 ? "flex" : "hidden max-desktop:group-focus-within:flex",
-      )}>
+      } className="absolute top-2 right-2 flex size-11 items-center justify-center rounded-full bg-raised text-accent">
         <img src="/assets/364ee.svg" alt="" />
       </FavoriteButton>
 
       {nft.id === "neon-vessel-552" && (
-        <span className="absolute top-4 left-0 bg-primary px-2 py-1.5 text-primary-foreground desktop:hidden">
+        <span className="absolute top-3 left-1.5 rounded-control bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">
           RARO
         </span>
       )}
 
-      <div className={cn(
-        "flex flex-col gap-1 px-2 pt-2 leading-4 desktop:px-0 desktop:pt-3",
-        index < 3 ? "desktop:gap-3" : "desktop:gap-1.5",
-        related && "desktop:gap-1",
-        artOnly && "desktop:sr-only",
-      )}>
-        <h3 className={cn(
-          "text-[15px] leading-4 font-normal desktop:text-base",
-          related && "desktop:text-[15px]",
-          presentation === "cart-related" && "desktop:leading-5",
-        )}>
+      <div className="flex flex-col gap-1 px-1 pt-3 leading-5">
+        <h3 className="min-h-10 wrap-break-word text-sm leading-5 font-medium desktop:text-base">
           <Link to="/nfts/$nftId" params={{ nftId: nft.id }} tabIndex={-1}>{title}</Link>
         </h3>
 
-        <p className={cn("text-base leading-4 whitespace-nowrap desktop:text-lg", related && "desktop:text-base")}>
+        <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-base leading-6 tabular-nums">
           <strong className="font-bold text-accent">{nft.editions[0]?.unitPrice} ETH</strong>
 
           {nft.previousPrice && (
-            <span className="hidden pl-3 font-normal text-secondary desktop:inline">
+            <span className="text-xs font-normal text-secondary line-through">
               {nft.previousPrice} ETH
             </span>
           )}
