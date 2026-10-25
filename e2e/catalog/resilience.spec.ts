@@ -60,7 +60,7 @@ test("cart quantity, coupon and removal reconcile after refresh", async ({ page 
   await quantity.blur()
   await expect(quantity).toHaveValue("2")
 
-  await page.getByPlaceholder("Digite o código promocional...").fill("KURIO10")
+  await page.getByRole("textbox", { name: "Código promocional", exact: true }).fill("KURIO10")
   await page.getByRole("button", { name: "Aplicar", exact: true }).click()
   await expect(page.getByRole("region", { name: "Resumo da carteira" })).toContainText("2.158 ETH")
 

@@ -67,7 +67,7 @@ test("live price changes refresh the cart summary and explain the change", async
   })
 
   await expect(summary).toContainText("2.016 ETH")
-  await expect(page.getByRole("status")).toContainText("atualizado")
+  await expect(page.getByRole("status").filter({ hasText: "O preço ou a disponibilidade" })).toContainText("atualizado")
 })
 
 test("duplicated and older protocol notifications preserve the current NFT", async ({ page }) => {

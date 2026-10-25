@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { ArtworkImage } from "../../../shared/components/artwork-image";
 import { Link } from "@tanstack/react-router";
 import { useState, type SyntheticEvent } from "react";
@@ -25,14 +26,24 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
 
   const [coupon, setCoupon] = useState("");
   const [message, setMessage] = useState("");
+  const network = cart?.items[0]?.network ?? "ethereum";
 
   const quote = useQuery({
-    queryKey: ["private", scope, "quote", cart?.version, coupon],
-    queryFn: ({ signal }) => quotes.create(cart?.items[0]?.network ?? "ethereum", coupon, signal),
+    queryKey: ["private", scope, "quote", cart?.version, coupon, cart?.id, network],
+    queryFn: ({ signal }) => quotes.create(network, coupon, signal),
+    placeholderData (previous, previousQuery) {
+      return previousQuery?.queryKey[1] === scope
+        && previous?.cartId === cart?.id
+        && previous?.network === network
+        && (previous.coupon ?? "") === coupon ? previous : undefined
+    },
     enabled: Boolean(cart?.items.length),
     retry: false,
     staleTime: 30_000,
   });
+  const updatingQuote = adding || quote.isFetching || quote.isPlaceholderData;
+  const canContinue = quote.isSuccess && !updatingQuote
+    && quote.data.cartId === cart?.id && quote.data.cartVersion === cart.version;
 
   async function mutateLine (action: () => Promise<unknown>) {
     setMessage("");
@@ -58,15 +69,15 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
         <Link to="/">Início</Link> / Mercado / Carrinho
       </p>
 
-      <div className="relative mb-5 flex h-9 items-center desktop:hidden">
+      <div className="relative mb-6 flex min-h-11 items-center desktop:hidden">
         <Link
           to="/" aria-label="Voltar ao catálogo"
-          className="absolute left-0 flex size-9 items-center justify-center rounded-full border border-border bg-raised [&_img]:rotate-90"
+          className="absolute left-0 flex size-11 items-center justify-center rounded-full border border-input bg-raised [&_img]:rotate-90"
         >
           <img src="/assets/0e8e8.svg" alt="" />
         </Link>
 
-        <h1 className="w-full text-center text-xl leading-6 font-bold" aria-label="Seu carrinho de NFTs">
+        <h1 className="w-full pl-14 text-lg leading-6 font-bold" aria-label="Seu carrinho de NFTs">
           Carrinho de NFTs
         </h1>
       </div>
@@ -87,7 +98,7 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
           </Button>
         </EmptyState>
       ) : (
-        <div className="block desktop:grid desktop:grid-cols-[1fr_310px] desktop:gap-7 wide:grid-cols-[minmax(0,782px)_minmax(0,332px)] wide:gap-21.5">
+        <div className="block desktop:grid desktop:grid-cols-[minmax(0,1fr)_290px] desktop:gap-6 wide:grid-cols-[minmax(0,1fr)_310px] wide:gap-10">
           <div className="min-w-0">
             {catalogChange && cart.items.some((item) => item.nftId === catalogChange.subjectId) && (
               <p role="status" className="mb-4 text-sm text-accent">
@@ -95,11 +106,11 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
               </p>
             )}
 
-            <div className="mb-3 hidden h-7 grid-cols-[1fr_90px_90px_36px] border-b border-border text-base font-bold desktop:grid wide:grid-cols-[311px_138px_136px_1fr]">
+            <div className="mb-3 hidden min-h-8 grid-cols-[minmax(0,1fr)_140px_100px_44px] gap-3 border-b border-border text-sm font-bold desktop:grid">
               <span>NFTs</span>
-              <span>Preço</span>
-              <span>Edições</span>
+              <span>Quantidade</span>
               <span>Total</span>
+              <span className="sr-only">Remover</span>
             </div>
 
             {cart.items.map((item) => {
@@ -107,35 +118,34 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
 
               return (
                 <article key={item.id} className={cn(
-                  "group relative mb-5 grid h-25 grid-cols-[102px_minmax(0,1fr)] grid-rows-[52px_48px] items-center gap-x-2 rounded-2xl bg-card pr-3",
-                  "desktop:mb-3 desktop:h-17.5 desktop:grid-cols-[60px_1fr_90px_90px_24px] desktop:grid-rows-none",
-                  "desktop:gap-3 desktop:rounded-none desktop:pr-0 wide:grid-cols-[70px_209px_122px_120px_136px_24px] wide:gap-4",
+                  "relative mb-4 grid grid-cols-[64px_minmax(0,1fr)] items-start gap-x-3 gap-y-2 rounded-artwork bg-card p-3",
+                  "desktop:mb-3 desktop:grid-cols-[60px_minmax(0,1fr)_140px_100px_44px] desktop:items-center desktop:gap-3 desktop:p-0 desktop:py-3 desktop:bg-transparent desktop:border-b desktop:border-border desktop:rounded-none",
                 )}>
-                  <Link to="/nfts/$nftId" params={{ nftId: item.nftId }} className="row-span-2 desktop:row-auto">
+                  <Link to="/nfts/$nftId" params={{ nftId: item.nftId }} className="row-span-3 self-start desktop:row-auto">
                     <ArtworkImage
                       src={item.image} alt={title}
-                      sizes="(min-width: 1024px) 70px, 102px"
-                      className="size-25.5 rounded-[14px] object-cover desktop:size-17.5 desktop:rounded-[5px]"
+                      sizes="64px"
+                      className="size-16 rounded-input object-cover desktop:size-15"
                     />
                   </Link>
 
-                  <div className="mt-3.5 self-start desktop:mt-0 desktop:self-auto">
-                    <h2 className="text-[15px] leading-4.5 font-bold desktop:text-base desktop:leading-5">
+                  <div className="min-w-0 pr-10 desktop:pr-0">
+                    <h2 className="wrap-break-word text-sm leading-5 font-bold">
                       {title}
                     </h2>
 
-                    <p className="hidden text-sm leading-5 text-secondary desktop:block">
+                    <p className="hidden text-xs leading-5 text-secondary desktop:block">
                       ID do token: #{item.tokenId.padStart(4, "0")}
                     </p>
 
-                    <p className="block text-sm leading-4.5 text-muted-foreground desktop:hidden">
+                    <p className="hidden text-xs leading-5 text-muted-foreground wide:block">
+                      {item.unitPrice} ETH / unidade
+                    </p>
+
+                    <p className="block text-xs leading-5 text-muted-foreground desktop:hidden">
                       Edição: {item.editionLabel.replace("Edição de ", "1/")}
                     </p>
                   </div>
-
-                  <span className="hidden text-base font-bold text-muted-foreground wide:block">
-                    {item.unitPrice} ETH
-                  </span>
 
                   <QuantityControl
                     variant="cart"
@@ -146,7 +156,7 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
                     onChange={(quantity) => { void mutateLine(() => changeItem(item.id, quantity, cart.version)) }}
                   />
 
-                  <strong className="col-start-2 row-start-2 self-end pb-2.5 text-lg text-accent desktop:col-auto desktop:row-auto desktop:self-auto desktop:pb-0 desktop:text-base">
+                  <strong className="col-start-2 row-start-2 text-base leading-6 text-accent tabular-nums desktop:col-auto desktop:row-auto desktop:text-sm">
                     {multiplyEth(item.unitPrice, item.quantity)} ETH
                   </strong>
 
@@ -155,16 +165,9 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
                     aria-label={"Remover " + title}
                     onClick={() => { void mutateLine(() => removeItem(item.id, cart.version)) }}
 
-                    className={cn(
-                      "hidden h-10 w-6 items-center justify-center",
-                      "max-desktop:group-focus-within:absolute max-desktop:group-focus-within:-top-3",
-                      "max-desktop:group-focus-within:-right-3 max-desktop:group-focus-within:flex",
-                      "max-desktop:group-focus-within:size-8 max-desktop:group-focus-within:rounded-full",
-                      "max-desktop:group-focus-within:border max-desktop:group-focus-within:border-panel-border",
-                      "max-desktop:group-focus-within:bg-raised desktop:flex",
-                    )}
+                    className="absolute top-1 right-1 flex size-11 items-center justify-center rounded-control text-muted-foreground hover:bg-raised hover:text-destructive desktop:static"
                   >
-                    <img src="/assets/e196c.svg" alt="" />
+                    <Trash2 className="size-4.5" aria-hidden="true" />
                   </button>
                 </article>
               )
@@ -174,30 +177,27 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
           </div>
 
           <section aria-label="Resumo da carteira" className={cn(
-            "fixed inset-x-0 bottom-0 z-30 rounded-t-sheet bg-card px-6 pt-6 pb-9 shadow-dock",
-            "tablet:mx-auto tablet:max-w-150",
-            "desktop:static desktop:z-auto desktop:mx-0 desktop:max-w-none desktop:rounded-none",
-            "desktop:bg-transparent desktop:p-0 desktop:shadow-none",
+            "mt-8 rounded-artwork bg-card p-6 desktop:mt-0 desktop:self-start",
           )}>
-            <h2 className="mb-6 hidden border-b border-border text-xl leading-6 font-bold desktop:block">
+            <h2 className="mb-4 border-b border-border pb-4 text-lg leading-6 font-bold">
               Resumo da carteira
             </h2>
 
             <form onSubmit={applyCoupon} className="block">
-              <label htmlFor="coupon" className="mb-1 hidden text-[15px] font-bold desktop:block">
+              <label htmlFor="coupon" className="mb-2 block text-sm font-medium">
                 Código promocional
               </label>
 
-              <div className="flex h-12.5 overflow-hidden rounded-sheet border border-panel-border desktop:h-10 desktop:overflow-visible desktop:rounded-none desktop:border-0">
+              <div className="flex gap-2">
                 <Input
                   id="coupon"
                   name="coupon"
                   defaultValue={coupon}
-                  placeholder="Digite o código promocional..."
-                  className="rounded-l-xs rounded-r-none border-0 px-4 py-3 text-sm desktop:border desktop:border-primary desktop:p-2"
+                  placeholder="Ex.: KURIO10"
+                  className="px-3 text-sm"
                 />
 
-                <Button className="rounded-sheet font-bold text-primary-foreground desktop:rounded-l-none desktop:rounded-r-xs desktop:font-medium" type="submit">
+                <Button className="px-3 text-sm" type="submit">
                   Aplicar
                 </Button>
               </div>
@@ -213,7 +213,7 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
                 {coupon && <button onClick={() => { setCoupon("") }}>Remover cupom</button>}
               </div>
             ) : (
-              <dl className="mt-3 flex flex-col gap-3 text-[15px] desktop:mt-6 [&>div]:flex [&>div]:justify-between [&>div]:gap-2 [&>div]:leading-5 [&_dd]:text-right [&_dd]:text-base desktop:[&_dd]:text-lg">
+              <dl aria-busy={updatingQuote} className="mt-6 flex flex-col gap-4 text-sm [&>div]:flex [&>div]:justify-between [&>div]:gap-2 [&>div]:leading-5 [&_dd]:text-right [&_dd]:text-base">
                 <div>
                   <dt>Subtotal</dt>
                   <dd>{quote.data.totals.subtotal} ETH</dd>
@@ -229,16 +229,22 @@ export function CartScreen ({ catalog, quotes }: { readonly catalog: CatalogApi;
                   <dd>{quote.data.totals.networkFee} ETH<small className="mt-0 block text-xs leading-4 text-accent desktop:mt-2">Taxa estimada</small></dd>
                 </div>
 
-                <div className="mt-1 text-lg font-bold desktop:mt-3 desktop:text-[15px] [&_dd]:text-accent">
+                <div className="mt-1 border-t border-border pt-4 text-base font-bold [&_dd]:text-accent">
                   <dt>Total</dt>
                   <dd>{quote.data.totals.total} ETH</dd>
                 </div>
               </dl>
             )}
 
-            <Button asChild className="mt-6 flex h-15 w-full rounded-sheet text-base font-bold text-primary-foreground desktop:h-auto desktop:rounded-control desktop:text-[15px] desktop:font-medium">
-              <Link to="/checkout" search={{ coupon }}>Conectar e finalizar</Link>
-            </Button>
+            {canContinue ? (
+              <Button asChild className="mt-6 flex min-h-12 w-full rounded-control text-sm font-bold">
+                <Link to="/checkout" search={{ coupon }}>Conectar e finalizar</Link>
+              </Button>
+            ) : (
+              <Button disabled className="mt-6 flex min-h-12 w-full rounded-control text-sm font-bold">
+                Conectar e finalizar
+              </Button>
+            )}
 
             <Link to="/" className="mt-3 hidden text-center text-accent desktop:block">Continuar explorando</Link>
           </section>
