@@ -39,11 +39,15 @@ test("wallet changes persist and a secondary alias follows the primary wallet", 
   await page.getByRole("link", { name: "Carteiras", exact: true }).click()
   const primary = page.getByRole("form", { name: "Carteira principal" })
 
-  await primary.getByRole("combobox", { name: "Rede", exact: true }).selectOption("solana")
+  await primary.getByRole("combobox", { name: "Rede", exact: true }).click()
+  await page.getByRole("option", { name: "Solana", exact: true }).click()
   await primary.getByRole("button", { name: "Salvar carteira", exact: true }).click()
   await expect(primary.getByText("Endereço incompatível com a rede selecionada.")).toBeVisible()
 
-  await primary.getByRole("combobox", { name: "Rede", exact: true }).selectOption("ethereum")
+  await primary.getByRole("combobox", { name: "Rede", exact: true }).click()
+  await page.getByRole("option", { name: "Ethereum", exact: true }).click()
+  await primary.getByRole("combobox", { name: "Tipo de carteira", exact: true }).click()
+  await page.getByRole("option", { name: "WalletConnect", exact: true }).click()
   await primary.getByRole("textbox", { name: "Apelido da carteira", exact: true }).fill("Minha carteira")
   await primary.getByRole("button", { name: "Salvar carteira", exact: true }).click()
   await expect(page.getByRole("status")).toContainText("Carteira salva")
@@ -53,6 +57,8 @@ test("wallet changes persist and a secondary alias follows the primary wallet", 
 
   await page.reload()
   await expect(primary.getByRole("textbox", { name: "Apelido da carteira", exact: true })).toHaveValue("Minha carteira")
+  await expect(primary.getByRole("combobox", { name: "Rede", exact: true })).toContainText("Ethereum")
+  await expect(primary.getByRole("combobox", { name: "Tipo de carteira", exact: true })).toContainText("WalletConnect")
   await expect(page.getByLabel("Igual à carteira principal")).toBeChecked()
 })
 

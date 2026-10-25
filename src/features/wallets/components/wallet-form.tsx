@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { FormField } from "../../../shared/components/form-field";
 import { ApiClientError, explainError } from "../../../shared/http/api-client-error";
 import { Button } from "../../../shared/ui/button";
 import { Input } from "../../../shared/ui/input";
-import { NativeSelect, NativeSelectOption } from "../../../shared/ui/native-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select";
 import { type WalletApi } from "../api/wallet-api";
 import { walletInputSchema } from "../api/wallet-contracts";
 import { type Wallet, type WalletSlot } from "../types/wallet";
@@ -34,7 +34,7 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
   readonly api: WalletApi
   readonly onSaved: () => void
 }) {
-  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<WalletValues>({
+  const { register, control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<WalletValues>({
     defaultValues: {
       displayName: "",
       nickname: "",
@@ -93,7 +93,7 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
           const id = slot + "-" + field
 
           const props = {
-            ...register(field),
+            ...(field !== "network" && field !== "provider" ? register(field) : {}),
             id,
             "aria-invalid": Boolean(errors[field]),
             "aria-describedby": errors[field] ? id + "-error" : undefined,
@@ -108,20 +108,39 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
               required={field !== "secondaryAddress"}
               error={errors[field]?.message}
             >
-              {field === "network" ? (
-                <NativeSelect {...props}>
-                  <NativeSelectOption value="">Selecione uma rede</NativeSelectOption>
-                  <NativeSelectOption value="ethereum">Ethereum</NativeSelectOption>
-                  <NativeSelectOption value="polygon">Polygon</NativeSelectOption>
-                  <NativeSelectOption value="solana">Solana</NativeSelectOption>
-                </NativeSelect>
-              ) : field === "provider" ? (
-                <NativeSelect {...props}>
-                  <NativeSelectOption value="">Selecione uma carteira</NativeSelectOption>
-                  <NativeSelectOption value="metamask">MetaMask</NativeSelectOption>
-                  <NativeSelectOption value="walletconnect">WalletConnect</NativeSelectOption>
-                  <NativeSelectOption value="coinbase">Coinbase Wallet</NativeSelectOption>
-                </NativeSelect>
+              {field === "network" || field === "provider" ? (
+                <Controller
+                  control={control}
+                  name={field}
+                  render={({ field: selectField }) => (
+                    <Select name={selectField.name} value={selectField.value} onValueChange={selectField.onChange}>
+                      <SelectTrigger
+                        id={id}
+                        ref={selectField.ref}
+                        onBlur={selectField.onBlur}
+                        aria-invalid={Boolean(errors[field])}
+                        aria-describedby={errors[field] ? id + "-error" : undefined}
+                      >
+                        <SelectValue placeholder={field === "network" ? "Selecione uma rede" : "Selecione uma carteira"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {field === "network" ? (
+                          <>
+                            <SelectItem value="ethereum">Ethereum</SelectItem>
+                            <SelectItem value="polygon">Polygon</SelectItem>
+                            <SelectItem value="solana">Solana</SelectItem>
+                          </>
+                        ) : (
+                          <>
+                            <SelectItem value="metamask">MetaMask</SelectItem>
+                            <SelectItem value="walletconnect">WalletConnect</SelectItem>
+                            <SelectItem value="coinbase">Coinbase Wallet</SelectItem>
+                          </>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
               ) : field === "ens" ? (
                 <div className="flex gap-3">
                   <span className="flex min-w-20 items-center rounded-input border border-input bg-transparent px-3">.eth</span>

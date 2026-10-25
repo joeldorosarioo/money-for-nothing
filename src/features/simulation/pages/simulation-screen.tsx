@@ -8,7 +8,7 @@ import { explainError } from "../../../shared/http/api-client-error";
 import { parseEth } from "../../../shared/money/eth";
 import { Button } from "../../../shared/ui/button";
 import { Input } from "../../../shared/ui/input";
-import { NativeSelect, NativeSelectOption } from "../../../shared/ui/native-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select";
 import { useAuth } from "../../auth/index";
 import { simulationScenarioSchema, type SimulationApi, type SimulationScenario } from "../api/simulation-api";
 
@@ -122,14 +122,17 @@ export function SimulationScreen ({ api }: { readonly api: SimulationApi }) {
         <h2 className="mb-6 text-lg font-bold">Comportamento do serviço</h2>
 
         <FormField variant="password" className={fieldClassName} id="simulation-scenario" label="Cenário" error={undefined}>
-          <NativeSelect id="simulation-scenario" value={scenario} disabled={pending} onChange={(event) => {
-            const next = simulationScenarioSchema.safeParse(event.target.value)
+          <Select value={scenario} disabled={pending} onValueChange={(value) => {
+            const next = simulationScenarioSchema.safeParse(value)
             if (next.success) setSelected(next.data)
           }}>
-            {simulationScenarioSchema.options.map((value) => (
-              <NativeSelectOption key={value} value={value}>{scenarioNames[value]}</NativeSelectOption>
-            ))}
-          </NativeSelect>
+            <SelectTrigger id="simulation-scenario"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {simulationScenarioSchema.options.map((value) => (
+                <SelectItem key={value} value={value}>{scenarioNames[value]}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
 
         <Button disabled={pending} onClick={() => {
@@ -167,11 +170,14 @@ export function SimulationScreen ({ api }: { readonly api: SimulationApi }) {
         </FormField>
 
         <FormField variant="password" className={fieldClassName} id="simulation-edition" label="Edição" error={undefined}>
-          <NativeSelect id="simulation-edition" name="editionId" disabled={pending}>
-            <NativeSelectOption value="edition-50">Edição de 50</NativeSelectOption>
-            <NativeSelectOption value="edition-10">Edição de 10</NativeSelectOption>
-            <NativeSelectOption value="edition-1">Peça única</NativeSelectOption>
-          </NativeSelect>
+          <Select name="editionId" defaultValue="edition-50" disabled={pending}>
+            <SelectTrigger id="simulation-edition"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="edition-50">Edição de 50</SelectItem>
+              <SelectItem value="edition-10">Edição de 10</SelectItem>
+              <SelectItem value="edition-1">Peça única</SelectItem>
+            </SelectContent>
+          </Select>
         </FormField>
 
         <FormField variant="password" className={fieldClassName} id="simulation-price" label="Preço em ETH" error={undefined}>
@@ -223,10 +229,13 @@ export function SimulationScreen ({ api }: { readonly api: SimulationApi }) {
         </FormField>
 
         <FormField variant="password" className={fieldClassName} id="simulation-status" label="Resultado" error={undefined}>
-          <NativeSelect id="simulation-status" name="orderStatus" disabled={pending}>
-            <NativeSelectOption value="confirmed">Confirmado</NativeSelectOption>
-            <NativeSelectOption value="rejected">Rejeitado</NativeSelectOption>
-          </NativeSelect>
+          <Select name="orderStatus" defaultValue="confirmed" disabled={pending}>
+            <SelectTrigger id="simulation-status"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="confirmed">Confirmado</SelectItem>
+              <SelectItem value="rejected">Rejeitado</SelectItem>
+            </SelectContent>
+          </Select>
         </FormField>
 
         <p className="mb-4 text-[13px] text-muted-foreground">

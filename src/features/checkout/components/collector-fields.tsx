@@ -4,7 +4,7 @@ import { FormField } from "../../../shared/components/form-field";
 import { Checkbox } from "../../../shared/ui/checkbox";
 import { Input } from "../../../shared/ui/input";
 import { Label } from "../../../shared/ui/label";
-import { NativeSelect, NativeSelectOption } from "../../../shared/ui/native-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select";
 import { type OrderInput } from "../../orders/index";
 import { type Wallet, type WalletProvider } from "../../wallets/index";
 
@@ -40,16 +40,21 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
       </FormField>
 
       <FormField variant="checkout" id="purchase-network" label="Rede" required error={undefined}>
-        <NativeSelect id="purchase-network" value={wallet.network} disabled={disabled} onChange={(event) => {
-          const selected = wallets.find((item) => item.network === event.target.value)
+        <Select value={wallet.network} disabled={disabled} onValueChange={(value) => {
+          const selected = wallets.find((item) => item.network === value)
           if (selected) onWalletChange(selected.id)
         }}>
-          {(["ethereum", "polygon", "solana"] as const).map((network) => (
-            <NativeSelectOption key={network} value={network} disabled={!wallets.some((item) => item.network === network)}>
-              {network === "ethereum" ? "Ethereum" : network === "polygon" ? "Polygon" : "Solana"}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
+          <SelectTrigger id="purchase-network">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {(["ethereum", "polygon", "solana"] as const).map((network) => (
+              <SelectItem key={network} value={network} disabled={!wallets.some((item) => item.network === network)}>
+                {network === "ethereum" ? "Ethereum" : network === "polygon" ? "Polygon" : "Solana"}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </FormField>
 
       <FormField variant="checkout" id="purchase-profileName" label="Nome do perfil" required error={undefined}>
@@ -71,21 +76,22 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
       </FormField>
 
       <FormField variant="checkout" id="purchase-provider" label="Tipo de carteira" required error={undefined}>
-        <NativeSelect
-          id="purchase-provider"
+        <Select
           value={provider}
           disabled={disabled}
-          onChange={(event) => {
-            const value = event.target.value;
-
+          onValueChange={(value) => {
             if (value === "metamask" || value === "coinbase" || value === "walletconnect") onProviderChange(value)
-          }
-          }
+          }}
         >
-          <NativeSelectOption value="metamask" disabled={wallet.network === "solana"}>MetaMask</NativeSelectOption>
-          <NativeSelectOption value="walletconnect">WalletConnect</NativeSelectOption>
-          <NativeSelectOption value="coinbase" disabled={wallet.network === "solana"}>Coinbase Wallet</NativeSelectOption>
-        </NativeSelect>
+          <SelectTrigger id="purchase-provider">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="metamask" disabled={wallet.network === "solana"}>MetaMask</SelectItem>
+            <SelectItem value="walletconnect">WalletConnect</SelectItem>
+            <SelectItem value="coinbase" disabled={wallet.network === "solana"}>Coinbase Wallet</SelectItem>
+          </SelectContent>
+        </Select>
       </FormField>
 
       <FormField variant="checkout" id="purchase-referralCode" label="Código de indicação" required error={errors.referralCode?.message}>

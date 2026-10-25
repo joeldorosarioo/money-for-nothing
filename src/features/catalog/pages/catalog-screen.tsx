@@ -9,7 +9,7 @@ import { cn } from "../../../shared/lib/cn";
 import { Button } from "../../../shared/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../../../shared/ui/dialog";
 import { Input } from "../../../shared/ui/input";
-import { NativeSelect, NativeSelectOption } from "../../../shared/ui/native-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select";
 import { type CatalogApi } from "../api/catalog-api";
 import { CatalogFilters } from "../components/catalog-filters";
 import { HomeEditorial, HomeHero } from "../components/home-content";
@@ -164,26 +164,28 @@ export function CatalogScreen ({ catalog, search, updateSearch, presentation = "
               </p>
               <div className="flex min-h-11 items-center gap-2 text-xs leading-5">
                 Ordenar por:
-                <NativeSelect
-                  variant="inline"
-                  className="max-w-56 text-xs wide:text-sm"
-                  aria-label="Ordenar NFTs"
+                <Select
                   value={search.sort}
-                  onChange={(event) => {
+                  onValueChange={(value) => {
                     setRecentTab("all")
                     updateSearch({
-                      ...search, sort: event.target.value === "price-asc" ? "price-asc"
-                        : event.target.value === "price-desc" ? "price-desc"
-                          : event.target.value === "popular" ? "popular" : "recent",
+                      ...search, sort: value === "price-asc" ? "price-asc"
+                        : value === "price-desc" ? "price-desc"
+                          : value === "popular" ? "popular" : "recent",
                       page: 1,
                     })
                   }}
                 >
-                  <NativeSelectOption value="recent">Listados recentemente</NativeSelectOption>
-                  <NativeSelectOption value="price-asc">Menor preço</NativeSelectOption>
-                  <NativeSelectOption value="price-desc">Maior preço</NativeSelectOption>
-                  <NativeSelectOption value="popular">Mais populares</NativeSelectOption>
-                </NativeSelect>
+                  <SelectTrigger variant="inline" className="max-w-56 text-xs wide:text-sm" aria-label="Ordenar NFTs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="recent">Listados recentemente</SelectItem>
+                    <SelectItem value="price-asc">Menor preço</SelectItem>
+                    <SelectItem value="price-desc">Maior preço</SelectItem>
+                    <SelectItem value="popular">Mais populares</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>

@@ -54,7 +54,7 @@ test("combined filters, sort and pagination survive direct links and browser his
   await expect(page.getByRole("checkbox", { name: /Ethereum/ })).toBeChecked()
 
   if (isMobile) await page.keyboard.press("Escape")
-  else await expect(page.getByRole("combobox", { name: "Ordenar NFTs", exact: true })).toHaveValue("price-asc")
+  else await expect(page.getByRole("combobox", { name: "Ordenar NFTs", exact: true })).toContainText("Menor preço")
 
   await pagination.getByRole("button", { name: "Página 1", exact: true }).click()
   await expect(page).toHaveURL(/page=1/)
