@@ -114,9 +114,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
             <img src="/assets/0e8e8.svg" alt="" />
           </Link>
 
-          <FavoriteButton nftId={nft.id} title={title} className="absolute top-5.75 right-6 flex size-9 items-center justify-center rounded-full border border-border bg-raised desktop:hidden">
-            <img src="/assets/d427d.svg" alt="" />
-          </FavoriteButton>
+          <FavoriteButton nftId={nft.id} title={title} className="absolute top-4 right-6 desktop:hidden" />
         </div>
 
         <div className="relative -mt-8 min-w-0 rounded-t-sheet bg-card px-5 py-6 tablet:px-6 desktop:mt-0 desktop:rounded-none desktop:bg-transparent desktop:p-0">
@@ -196,9 +194,7 @@ function NftDetails ({ nft }: { readonly nft: Nft }) {
               {adding ? "ADICIONANDO…" : "COMPRAR"}
             </Button>
 
-            <FavoriteButton nftId={nft.id} title={title} showLabel>
-              <img src="/assets/d427d.svg" alt="" />
-            </FavoriteButton>
+            <FavoriteButton nftId={nft.id} title={title} showLabel />
           </div>
 
           <div className="mt-6 flex flex-col gap-3 text-[15px] leading-5 text-secondary desktop:mt-0">

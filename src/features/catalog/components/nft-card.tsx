@@ -33,11 +33,10 @@ export function NftCard ({ nft, index = 0, presentation = "catalog" }: NftCardPr
         />
       </Link>
 
-      <FavoriteButton nftId={nft.id} title={title} savedIcon={
-        <img className="size-5" src="/assets/d427d.svg" alt="" />
-      } className="absolute top-2 right-2 flex size-11 items-center justify-center rounded-full bg-raised text-accent">
-        <img src="/assets/364ee.svg" alt="" />
-      </FavoriteButton>
+      <FavoriteButton nftId={nft.id} title={title} className={cn(
+        "absolute top-4 right-4",
+        presentation === "favorites" && "top-2 right-2",
+      )} />
 
       {nft.id === "neon-vessel-552" && (
         <span className="absolute top-3 left-1.5 rounded-control bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">

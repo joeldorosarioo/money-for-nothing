@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { Heart } from "lucide-react";
 
 import { AuthDialogLink, useAuth } from "../../auth/index";
 import { Button } from "../../../shared/ui/button";
@@ -9,24 +9,33 @@ interface FavoriteButtonProps {
   readonly nftId: string
   readonly title: string
   readonly className?: string
-  readonly children: ReactNode
   readonly showLabel?: boolean
-  readonly savedIcon?: ReactNode
 }
 
-export function FavoriteButton ({ nftId, title, className, children, showLabel = false, savedIcon }: FavoriteButtonProps) {
+export function FavoriteButton ({ nftId, title, className, showLabel = false }: FavoriteButtonProps) {
   const { status } = useAuth()
   const { nftIds, pendingIds, loading, toggle } = useFavorites()
 
   const saved = status === "authenticated" && nftIds.includes(nftId)
   const label = saved ? "Remover " + title + " dos favoritos" : "Favoritar " + title
-  const content = <>{saved && savedIcon ? savedIcon : children}{showLabel && (saved ? "Favoritado" : "Favoritar")}</>
+  const pending = pendingIds.includes(nftId)
+  const content = <>
+    <Heart className="size-5" strokeWidth={1.8} fill={saved ? "currentColor" : "none"} aria-hidden="true" />
+    {showLabel && (saved ? "Favoritado" : "Favoritar")}
+  </>
 
-  const appearance = cn(!showLabel && "min-h-0 border-0 p-0", saved && "aria-pressed:bg-primary aria-pressed:text-primary-foreground aria-pressed:[&_img]:brightness-0", className)
+  const appearance = cn(
+    "shrink-0 border-input text-accent focus-visible:outline-offset-2",
+    !showLabel && "rounded-full bg-card",
+    saved
+      ? "border-primary bg-primary text-primary-foreground hover:bg-accent hover:text-primary-foreground hover:enabled:bg-accent hover:enabled:text-primary-foreground"
+      : "hover:border-primary hover:bg-raised hover:text-accent",
+    className,
+  )
 
   if (status === "guest") {
     return (
-      <Button asChild variant={showLabel ? "outline" : "ghost"} className={appearance}>
+      <Button asChild variant="outline" size={showLabel ? "default" : "icon"} className={appearance}>
         <AuthDialogLink aria-label={label}>{content}</AuthDialogLink>
       </Button>
     )
@@ -34,11 +43,13 @@ export function FavoriteButton ({ nftId, title, className, children, showLabel =
 
   return (
     <Button
-      variant={showLabel ? "outline" : "ghost"}
+      variant="outline"
+      size={showLabel ? "default" : "icon"}
       className={appearance}
       aria-label={label}
       aria-pressed={saved}
-      disabled={status !== "authenticated" || loading || pendingIds.includes(nftId)}
+      aria-busy={pending}
+      disabled={status !== "authenticated" || loading || pending}
       onClick={() => { void toggle(nftId) }}
     >
       {content}
