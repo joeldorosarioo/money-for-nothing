@@ -144,21 +144,21 @@ function ProfileForm ({ profile, api, onSaved }: {
   })
 
   return (
-    <form className="mt-7" noValidate onSubmit={(event) => { void handleSubmit(submit)(event) }}>
-      <div className="flex flex-col gap-5 desktop:grid desktop:grid-cols-2 desktop:gap-x-7 desktop:gap-y-6">
+    <form className="mt-6" noValidate onSubmit={(event) => { void handleSubmit(submit)(event) }}>
+      <div className="grid grid-cols-1 gap-6 desktop:grid-cols-2">
         {identityFields.map(([field, label]) => (
           <FormField key={field} id={"profile-" + field} label={label} required error={errors[field]?.message}>
             {field === "ens" ? (
-              <div className="flex gap-2.5">
-                <span className="flex min-w-19.5 items-center border border-border bg-transparent px-2.5">
-                  .eth<img className="ml-auto h-2 w-3" src="/assets/figma-select-arrow.svg" alt="" />
+              <div className="flex gap-3">
+                <span className="flex min-w-20 items-center rounded-input border border-input bg-transparent px-3">
+                  .eth
                 </span>
 
-                <Input className="h-10" {...register(field)} {...accessibility(field)} />
+                <Input className="h-11" {...register(field)} {...accessibility(field)} />
               </div>
             ) : (
               <Input
-                className="h-10"
+                className="h-11"
                 type={field === "email" ? "email" : "text"}
                 autoComplete={field === "email" ? "email" : field === "username" ? "username" : "off"}
                 {...register(field)} {...accessibility(field)}
@@ -168,10 +168,10 @@ function ProfileForm ({ profile, api, onSaved }: {
         ))}
 
         <div className="block">
-          <p className="leading-3.75">Avatar</p>
+          <p className="text-sm leading-6">Avatar</p>
 
-          <div className="mt-2.5 flex h-12.5 items-center gap-6 text-sm">
-            <div className="grid size-12.5 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-raised">
+          <div className="mt-2 flex min-h-12 flex-wrap items-center gap-4 text-sm">
+            <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-raised">
               {avatar ? (
                 <ArtworkImage sizes="50px" className="size-full object-cover" src={avatar} alt="Seu avatar" />
               ) : (
@@ -179,7 +179,7 @@ function ProfileForm ({ profile, api, onSaved }: {
               )}
             </div>
 
-            <Button asChild className="w-24.5 cursor-pointer px-0 py-2.5 font-bold">
+            <Button asChild className="min-w-24 cursor-pointer px-4 py-3 font-bold">
               <Label htmlFor="avatar-upload">Alterar</Label>
             </Button>
 
@@ -192,27 +192,27 @@ function ProfileForm ({ profile, api, onSaved }: {
               onChange={(event) => { void uploadAvatar(event.target.files?.[0]) }}
             />
 
-            <button type="button" onClick={() => { setAvatar("") }}>Remover</button>
+            <button className="min-h-11 px-3" type="button" onClick={() => { setAvatar("") }}>Remover</button>
           </div>
 
-          {uploadError && <p className="mt-1.5 text-xs leading-4.5 text-destructive" role="alert">{uploadError}</p>}
+          {uploadError && <p className="mt-2 text-xs leading-5 text-destructive" role="alert">{uploadError}</p>}
         </div>
       </div>
 
       <fieldset className="mt-8 block border-0 p-0">
-        <legend className="mb-5 text-base leading-5 font-medium">Alterar senha</legend>
+        <legend className="mb-4 text-base leading-6 font-medium">Alterar senha</legend>
 
         {passwordFields.map(([field, label]) => (
           <FormField
             variant="password"
-            className="w-full desktop:w-[calc(50%-14px)] [&+[data-slot=field]]:mt-6"
+            className="w-full desktop:w-[calc(50%-12px)] [&+[data-slot=field]]:mt-6"
             key={field}
             id={"profile-" + field}
             label={label}
             error={errors[field]?.message}
           >
             <PasswordInput
-              className="h-10"
+              className="h-11"
               {...register(field)} {...accessibility(field)}
               autoComplete={field === "currentPassword" ? "current-password" : "new-password"}
             />
@@ -221,13 +221,13 @@ function ProfileForm ({ profile, api, onSaved }: {
       </fieldset>
 
       {errors.root && (
-        <div className="mt-1.5 text-xs leading-4.5 text-destructive" role="alert">
+        <div className="mt-2 text-xs leading-5 text-destructive" role="alert">
           <p>{errors.root.message}</p>
         </div>
       )}
 
       <Button
-        className="mt-8 w-32.75 px-0 py-2.5 text-sm font-bold"
+        className="mt-8 min-w-32 px-6 py-3 text-sm font-bold"
         type="submit"
         disabled={isSubmitting}
         aria-label="Salvar alterações"
@@ -250,7 +250,7 @@ export function ProfileScreen ({ api }: { readonly api: ProfileApi }) {
 
   return (
     <section className="min-w-0">
-      <h1 className="text-base leading-5 font-bold">Perfil do colecionador</h1>
+      <h1 className="text-xl leading-7 font-bold">Perfil do colecionador</h1>
 
       {message && <p className="mt-4 text-sm text-muted-foreground" role="status">{message}</p>}
 

@@ -16,10 +16,10 @@ export function FormField ({ id, label, error, required = false, variant = "prof
     <div data-slot="field" className={cn(variant === "wallet-optional" && "self-end", className)}>
       <Label htmlFor={id} className={cn(
         "block",
-        variant === "profile" && "mb-2.5 leading-7.25",
-        variant === "password" && "mb-2.25 leading-4.5",
-        variant === "checkout" && "leading-7.25",
-        variant === "wallet" && "-mb-1 leading-7.25",
+        variant === "profile" && "mb-2 leading-6",
+        variant === "password" && "mb-2 leading-6",
+        variant === "checkout" && "mb-2 leading-6",
+        variant === "wallet" && "mb-2 leading-6",
         variant === "wallet-optional" && "sr-only",
       )}>
         {label}

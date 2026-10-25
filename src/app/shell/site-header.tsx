@@ -45,12 +45,12 @@ export function SiteHeader ({ bordered }: { readonly bordered: boolean }) {
   }
 
   return (
-    <header className={cn("relative hidden h-11.25 items-start justify-between desktop:flex", bordered && "border-b border-border")}>
-      <Link className="inline-flex min-h-8.5 items-center text-sm font-bold tracking-widest" to="/" search={normalizeCatalogSearch({})}>
+    <header className={cn("relative hidden min-h-16 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-6 pb-3 desktop:grid", bordered && "border-b border-border")}>
+      <Link className="inline-flex min-h-11 items-center text-sm font-bold tracking-widest" to="/" search={normalizeCatalogSearch({})}>
         KURIO
       </Link>
 
-      <nav className="absolute left-7/25 flex h-11.25 gap-7 text-base leading-4 wide:left-94 wide:gap-10 [&_a]:h-11.25" aria-label="Navegação principal">
+      <nav className="flex min-w-0 items-center justify-self-center gap-4 text-base leading-5 wide:gap-8 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center [&_a]:px-1 [&_a:hover]:text-accent" aria-label="Navegação principal">
         <Link to="/" search={normalizeCatalogSearch({})} className={cn(!marketActive && "border-b-2 border-primary font-bold text-accent")}>
           Início
         </Link>
@@ -63,10 +63,10 @@ export function SiteHeader ({ bordered }: { readonly bordered: boolean }) {
         <Link to="/" search={currentSearch} hash="diario">Aprenda</Link>
       </nav>
 
-      <div className="flex h-8.5 items-center gap-7">
+      <div className="flex items-center gap-3 wide:gap-5">
         <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Buscar NFTs">
+            <Button className="size-11 min-h-11" variant="ghost" size="icon" aria-label="Buscar NFTs">
               <img src="/assets/bd8c9.svg" alt="" />
             </Button>
           </DialogTrigger>
@@ -89,26 +89,26 @@ export function SiteHeader ({ bordered }: { readonly bordered: boolean }) {
               <Button type="submit">Buscar</Button>
             </form>
 
-            <DialogClose className="absolute top-2 right-3 w-8 text-[28px] leading-8" aria-label="Fechar busca">
+            <DialogClose className="absolute top-2 right-2 flex size-11 items-center justify-center text-[28px]" aria-label="Fechar busca">
               ×
             </DialogClose>
           </DialogContent>
         </Dialog>
 
-        <Link className="relative w-7.75" to="/cart" aria-label={"Carrinho, " + quantity.toString() + " itens"}>
+        <Link className="relative flex size-11 items-center justify-center rounded-control hover:bg-raised" to="/cart" aria-label={"Carrinho, " + quantity.toString() + " itens"}>
           <img src="/assets/c0c08.svg" alt="" />
 
-          <span className="absolute top-0 left-3.75 size-4 rounded-full bg-primary text-center text-[10px] leading-4 text-primary-foreground">
+          <span className="absolute top-0.5 right-0.5 flex min-h-4.5 min-w-4.5 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-4.5 text-primary-foreground">
             {quantity}
           </span>
         </Link>
 
         {session ? (
-          <Link to="/profile" className="inline-flex h-8.5 items-center gap-1 rounded-[6px] bg-primary px-2.25 py-1.5 text-base text-primary-foreground">
+          <Link to="/profile" className="inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-3 py-2 text-base whitespace-nowrap text-primary-foreground hover:bg-accent">
             <img src="/assets/62554.svg" alt="" />Meu perfil
           </Link>
         ) : (
-          <AuthDialogLink className="inline-flex h-8.5 items-center gap-1 rounded-[6px] bg-primary px-2.25 py-1.5 text-base text-primary-foreground">
+          <AuthDialogLink className="inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-3 py-2 text-base whitespace-nowrap text-primary-foreground hover:bg-accent">
             <img src="/assets/62554.svg" alt="" />Entrar
           </AuthDialogLink>
         )}

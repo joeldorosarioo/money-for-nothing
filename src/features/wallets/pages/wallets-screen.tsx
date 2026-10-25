@@ -71,9 +71,9 @@ export function WalletsScreen ({ api }: { readonly api: WalletApi }) {
 
   return (
     <section className="min-w-0">
-      <h1 className="text-base leading-5 font-bold">Carteira principal</h1>
+      <h1 className="text-xl leading-7 font-bold">Carteira principal</h1>
 
-      <p className="mt-2 text-sm leading-3.75 text-muted-foreground">
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">
         Estas carteiras ficam disponíveis no pagamento e para receber NFTs comprados.
       </p>
 
@@ -99,10 +99,10 @@ export function WalletsScreen ({ api }: { readonly api: WalletApi }) {
           }} />
 
           <section className="mt-8">
-            <div className="flex flex-wrap items-center gap-6 leading-4 desktop:flex-nowrap">
-              <h2 className="mr-auto w-full text-[17px] font-bold desktop:w-auto">Carteira secundária</h2>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 leading-6">
+              <h2 className="mr-auto w-full text-lg font-bold desktop:w-auto">Carteira secundária</h2>
 
-              <label className="flex gap-2 text-sm">
+              <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm">
                 <Checkbox
                   variant="circle"
                   checked={savingAlias || Boolean(secondary?.aliasOfPrimary && !expanded)}
@@ -114,7 +114,7 @@ export function WalletsScreen ({ api }: { readonly api: WalletApi }) {
               </label>
 
               <button
-                className="text-base text-accent"
+                className="min-h-11 px-3 text-base text-accent"
                 type="button"
                 aria-expanded={expanded}
                 aria-controls="secondary-wallet-form"
@@ -124,7 +124,7 @@ export function WalletsScreen ({ api }: { readonly api: WalletApi }) {
               </button>
             </div>
 
-            {error && <p role="alert" className="mt-1.5 text-xs leading-4.5 text-destructive">{error}</p>}
+            {error && <p role="alert" className="mt-2 text-xs leading-5 text-destructive">{error}</p>}
 
             {!expanded && (
               <p className="mt-3 text-sm text-muted-foreground">

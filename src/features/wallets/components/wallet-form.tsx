@@ -83,12 +83,12 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
 
   return (
     <form
-      className="mt-8"
+      className="mt-6"
       aria-label={slot === "primary" ? "Carteira principal" : "Carteira secundária"}
       noValidate
       onSubmit={(event) => { void handleSubmit(submit)(event) }}
     >
-      <div className="grid grid-cols-1 gap-6 desktop:grid-cols-2 desktop:gap-x-7">
+      <div className="grid grid-cols-1 gap-6 desktop:grid-cols-2">
         {fields.map(([field, label]) => {
           const id = slot + "-" + field
 
@@ -123,17 +123,15 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
                   <NativeSelectOption value="coinbase">Coinbase Wallet</NativeSelectOption>
                 </NativeSelect>
               ) : field === "ens" ? (
-                <div className="flex gap-2.5">
-                  <span className="flex min-w-19.5 items-center border border-border bg-transparent px-2.5">.eth
-                    <img className="ml-auto h-2 w-3" src="/assets/figma-select-arrow.svg" alt="" />
-                  </span>
+                <div className="flex gap-3">
+                  <span className="flex min-w-20 items-center rounded-input border border-input bg-transparent px-3">.eth</span>
 
-                  <Input className="h-10 text-sm" {...props} />
+                  <Input className="h-11 text-sm" {...props} />
                 </div>
               )
                 : (
                   <Input
-                    className="h-10 text-sm" {...props}
+                    className="h-11 text-sm" {...props}
                     type={field === "email" ? "email" : "text"}
                     placeholder={field === "address" ? "Endereço 0x da carteira" : field === "secondaryAddress" ? label : ""}
                     autoComplete={field === "email" ? "email" : "off"}
@@ -145,10 +143,10 @@ export function WalletForm ({ wallet, slot, api, onSaved }: {
       </div>
 
       {errors.root && (
-        <p role="alert" className="mt-1.5 text-xs leading-4.5 text-destructive">{errors.root.message}</p>
+        <p role="alert" className="mt-2 text-xs leading-5 text-destructive">{errors.root.message}</p>
       )}
 
-      <Button className="mt-8 min-w-32.75 px-0.5 py-2.5 text-sm font-bold" type="submit" disabled={isSubmitting}>
+      <Button className="mt-8 min-w-32 px-6 py-3 text-sm font-bold" type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Salvando..." : "Salvar carteira"}
       </Button>
     </form>

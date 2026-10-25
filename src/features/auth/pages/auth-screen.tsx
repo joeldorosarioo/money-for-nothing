@@ -112,13 +112,9 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
         onOpenAutoFocus={(event) => { if (!onClose) event.preventDefault() }}
 
         className={cn(
-          "absolute top-0 left-0 z-61 block max-w-none gap-0 max-h-none min-h-dvh w-full translate-x-0 translate-y-0 overflow-visible rounded-none border-0 bg-background px-7 pt-20 pb-6",
-          "desktop:top-40 desktop:left-1/2 desktop:min-h-150 desktop:w-125 desktop:-translate-x-1/2 desktop:rounded-lg desktop:bg-card desktop:px-0 desktop:pt-12 desktop:pb-25.75",
-          "desktop:after:absolute desktop:after:inset-x-0 desktop:after:bottom-0 desktop:after:h-2.5 desktop:after:bg-primary desktop:after:content-['']",
-
+          "absolute top-0 left-0 z-61 block max-w-none gap-0 max-h-none min-h-dvh w-full translate-x-0 translate-y-0 overflow-visible rounded-none border-0 bg-background px-5 py-8 tablet:px-6",
+          "desktop:top-24 desktop:left-1/2 desktop:min-h-0 desktop:w-140 desktop:-translate-x-1/2 desktop:rounded-dialog desktop:bg-card desktop:p-8",
           onClose && "fixed top-0 max-h-dvh overflow-y-auto desktop:top-1/2 desktop:max-h-[calc(100dvh-48px)] desktop:min-h-0 desktop:-translate-y-1/2",
-          signup && !onClose && "desktop:top-39.5 desktop:min-h-164",
-          signup && "desktop:pb-17.75",
         )}
 
         onCloseAutoFocus={(event) => {
@@ -127,11 +123,11 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           onRestoreFocus();
         }}
       >
-        <Link className="grid h-34 place-items-center text-[32px] leading-8 font-bold tracking-widest desktop:hidden" to="/">
+        <Link className="grid min-h-24 place-items-center py-6 text-[32px] leading-8 font-bold tracking-widest desktop:hidden" to="/">
           KURIO
         </Link>
 
-        <div className="hidden items-center justify-center gap-2.25 text-xl leading-5 desktop:flex [&_a[aria-current]]:text-accent">
+        <div className="hidden items-center justify-center gap-2 text-xl leading-6 desktop:flex [&_a]:inline-flex [&_a]:min-h-12 [&_a]:items-center [&_a]:px-3 [&_a]:py-3 [&_a[aria-current]]:text-accent">
           <Link
             to="/login"
             search={{ redirect }}
@@ -141,7 +137,7 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
             Entrar
           </Link>
 
-          <span className="ml-3 h-5 w-px bg-panel-border" aria-hidden="true" />
+          <span className="h-5 w-px bg-panel-border" aria-hidden="true" />
 
           <Link
             to="/signup"
@@ -153,11 +149,11 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           </Link>
         </div>
 
-        <DialogTitle className={cn("mt-10 mb-0 block text-center text-xl leading-4 font-bold desktop:hidden", signup && "text-lg")}>
+        <DialogTitle className={cn("mt-6 mb-0 block text-center text-xl leading-7 font-bold desktop:hidden", signup && "text-lg")}>
           {signup ? "Criar perfil de colecionador" : "Entrar"}
         </DialogTitle>
 
-        <DialogDescription className="mx-12 mt-10 mb-0 hidden text-center text-[13px] leading-4 text-foreground desktop:block">
+        <DialogDescription className="mt-6 mb-0 hidden text-center text-sm leading-6 text-foreground desktop:block">
           {
             signup
               ? "Crie seu perfil de colecionador e conecte uma carteira quando quiser."
@@ -165,11 +161,13 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           }
         </DialogDescription>
 
-        <form noValidate className="mt-10 p-0 desktop:mt-6 desktop:px-20" onSubmit={(event) => { void handleSubmit(submit)(event) }}>
-          <div className={cn("flex flex-col gap-3 [&_input]:h-12.5 [&_input]:rounded-[10px] [&_input]:border-border [&_input]:bg-transparent [&_input]:pl-4 [&_input]:text-sm desktop:[&_input]:h-10 desktop:[&_input]:rounded-input", signup && "max-desktop:[&>div:first-child_input]:text-center")}>
+        <form noValidate className="mt-6 p-0" onSubmit={(event) => { void handleSubmit(submit)(event) }}>
+          <div className={cn("flex flex-col gap-4 [&_label]:mb-2 [&_label]:block [&_label]:text-sm [&_input]:h-12 [&_input]:rounded-input [&_input]:border-input [&_input]:bg-transparent [&_input]:pl-4 [&_input]:text-sm", signup && "max-desktop:[&>div:first-child_input]:text-center")}>
             {signup && (
               <div>
+                <label htmlFor="auth-username">Nome de usuário</label>
                 <Input
+                  id="auth-username"
                   aria-label="Nome de usuário"
                   autoComplete="username"
                   placeholder="Nome de usuário"
@@ -178,7 +176,7 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
                 />
 
                 {errors.username && (
-                  <p className="mt-1.5 text-xs leading-4.5 text-destructive" id="auth-username-error">
+                  <p className="mt-2 text-xs leading-5 text-destructive" id="auth-username-error">
                     {errors.username.message}
                   </p>
                 )}
@@ -186,7 +184,9 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
             )}
 
             <div>
+              <label htmlFor="auth-email">E-mail</label>
               <Input
+                id="auth-email"
                 aria-label="E-mail"
                 type="email"
                 autoComplete="email"
@@ -196,14 +196,16 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
               />
 
               {errors.email && (
-                <p className="mt-1.5 text-xs leading-4.5 text-destructive" id="auth-email-error">
+                <p className="mt-2 text-xs leading-5 text-destructive" id="auth-email-error">
                   {errors.email.message}
                 </p>
               )}
             </div>
 
             <div>
+              <label htmlFor="auth-password">Senha</label>
               <PasswordInput
+                id="auth-password"
                 aria-label="Senha"
                 autoComplete={signup ? "new-password" : "current-password"}
                 placeholder={signup ? "Senha" : "***********"}
@@ -212,7 +214,7 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
               />
 
               {errors.password && (
-                <p className="mt-1.5 text-xs leading-4.5 text-destructive" id="auth-password-error">
+                <p className="mt-2 text-xs leading-5 text-destructive" id="auth-password-error">
                   {errors.password.message}
                 </p>
               )}
@@ -220,7 +222,9 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
 
             {signup && (
               <div>
+                <label htmlFor="auth-confirm-password">Confirmar senha</label>
                 <PasswordInput
+                  id="auth-confirm-password"
                   aria-label="Confirmar senha"
                   placeholder="Confirmar senha"
                   autoComplete="new-password"
@@ -229,7 +233,7 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
                 />
 
                 {errors.confirmPassword && (
-                  <p className="mt-1.5 text-xs leading-4.5 text-destructive" id="auth-confirmPassword-error">
+                  <p className="mt-2 text-xs leading-5 text-destructive" id="auth-confirmPassword-error">
                     {errors.confirmPassword.message}
                   </p>
                 )}
@@ -246,12 +250,12 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           )}
 
           {errors.root && (
-            <p className="mt-1.5 text-xs leading-4.5 text-destructive" role="alert">{errors.root.message}</p>
+            <p className="mt-2 text-xs leading-5 text-destructive" role="alert">{errors.root.message}</p>
           )}
 
           <Button
             type="submit" disabled={isSubmitting || status === "activating"}
-            className="mt-10 h-15 w-full rounded-[10px] text-base font-bold desktop:mt-6 desktop:h-11.25 desktop:rounded-control"
+            className="mt-6 h-12 w-full rounded-control text-base font-bold"
           >
             {isSubmitting ? "Aguarde..." : signup ? (
               <React.Fragment>
@@ -262,21 +266,21 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           </Button>
         </form>
 
-        <div className="mt-10 flex flex-col gap-4 desktop:mt-6 desktop:gap-3">
-          <p className="-mb-1 flex items-center gap-3 text-[13px] leading-4 text-muted-foreground before:h-px before:flex-1 before:bg-panel-border before:content-[''] after:h-px after:flex-1 after:bg-panel-border after:content-[''] desktop:mb-0">
+        <div className="mt-6 flex flex-col gap-3">
+          <p className="flex items-center gap-3 text-[13px] leading-5 text-muted-foreground before:h-px before:flex-1 before:bg-panel-border before:content-[''] after:h-px after:flex-1 after:bg-panel-border after:content-['']">
             <span>Ou continue com</span>
           </p>
 
           {(["Google", "Facebook"] as const).map((provider) => (
             <FeatureNotice key={provider} title={"Continuar com " + provider}>
-              <Button variant="outline" className="mx-auto h-10 w-full rounded-control border-panel-border text-[13px] text-muted-foreground desktop:w-85 [&_img]:size-5">
+              <Button variant="outline" className="mx-auto min-h-11 w-full rounded-control border-input bg-background text-[13px] text-muted-foreground desktop:bg-card [&_img]:size-5">
                 <img src={"/assets/figma-" + provider.toLowerCase() + ".svg"} alt="" /> {"Continuar com " + provider}
               </Button>
             </FeatureNotice>
           ))}
         </div>
 
-        <p className="mt-10 block text-center text-[15px] leading-5 desktop:hidden [&_a]:text-accent">
+        <p className="mt-6 block text-center text-[15px] leading-6 desktop:hidden [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4">
           {signup ? "Já tem uma conta? " : "Novo na Kurio? "}
 
           <Link
@@ -288,7 +292,7 @@ export function AuthScreen ({ mode, redirect, onClose, onModeChange, onRestoreFo
           </Link>
         </p>
 
-        <DialogClose className={cn("absolute top-1 right-2.5 hidden size-7.5 text-[26px] text-muted-foreground desktop:block", onClose && "top-3 right-3 block size-11")} aria-label="Fechar">
+        <DialogClose className={cn("absolute top-2 right-2 hidden size-11 text-[26px] text-muted-foreground desktop:block", onClose && "top-3 right-3 block")} aria-label="Fechar">
           ×
         </DialogClose>
       </DialogContent>

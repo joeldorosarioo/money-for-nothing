@@ -28,15 +28,15 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
   })
 
   return <div>
-    <h2 className="mb-3 text-[17px] leading-4.5 font-bold">Perfil do colecionador</h2>
+    <h2 className="mb-4 text-lg leading-6 font-bold">Perfil do colecionador</h2>
 
-    <div className="grid grid-cols-1 gap-x-6 gap-y-3 desktop:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 desktop:grid-cols-2">
       <FormField variant="checkout" id="purchase-displayName" label="Nome de exibição" required error={errors.displayName?.message}>
-        <Input className="h-10 text-sm" {...fieldProps("displayName")} autoComplete="name" />
+        <Input className="h-11 text-sm" {...fieldProps("displayName")} autoComplete="name" />
       </FormField>
 
       <FormField variant="checkout" id="purchase-username" label="Nome de usuário" required error={errors.username?.message}>
-        <Input className="h-10 text-sm" {...fieldProps("username")} autoComplete="username" />
+        <Input className="h-11 text-sm" {...fieldProps("username")} autoComplete="username" />
       </FormField>
 
       <FormField variant="checkout" id="purchase-network" label="Rede" required error={undefined}>
@@ -53,16 +53,16 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
       </FormField>
 
       <FormField variant="checkout" id="purchase-profileName" label="Nome do perfil" required error={undefined}>
-        <Input className="h-10 text-sm" id="purchase-profileName" value={wallet.profileName} readOnly />
+        <Input className="h-11 text-sm" id="purchase-profileName" value={wallet.profileName} readOnly />
       </FormField>
 
       <FormField variant="checkout" id="purchase-address" label="Endereço da carteira" required error={undefined}>
-        <Input className="h-10 text-sm" id="purchase-address" value={wallet.address} readOnly title={wallet.address} />
+        <Input className="h-11 text-sm" id="purchase-address" value={wallet.address} readOnly title={wallet.address} />
       </FormField>
 
       <FormField variant="wallet-optional" id="purchase-secondary" label="ENS ou carteira secundária (opcional)" error={undefined}>
         <Input
-          className="h-10 text-sm"
+          className="h-11 text-sm"
           id="purchase-secondary"
           value={wallet.secondaryAddress}
           readOnly
@@ -89,25 +89,25 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
       </FormField>
 
       <FormField variant="checkout" id="purchase-referralCode" label="Código de indicação" required error={errors.referralCode?.message}>
-        <Input className="h-10 text-sm" {...fieldProps("referralCode")} />
+        <Input className="h-11 text-sm" {...fieldProps("referralCode")} />
       </FormField>
 
       <FormField variant="checkout" id="purchase-email" label="E-mail" required error={errors.email?.message}>
-        <Input className="h-10 text-sm" {...fieldProps("email")} type="email" autoComplete="email" />
+        <Input className="h-11 text-sm" {...fieldProps("email")} type="email" autoComplete="email" />
       </FormField>
 
       <FormField variant="checkout" id="purchase-ens" label="Nome ENS" required error={errors.ens?.message}>
-        <div className="flex gap-2.5">
-          <span className="flex h-10 min-w-19.5 items-center rounded-input border border-border px-2.5">
-            .eth <img className="ml-auto h-2 w-3" src="/assets/figma-select-arrow.svg" alt="" />
+        <div className="flex gap-3">
+          <span className="flex h-11 min-w-20 items-center rounded-input border border-input px-3">
+            .eth
           </span>
 
-          <Input className="h-10 text-sm" {...fieldProps("ens")} />
+          <Input className="h-11 text-sm" {...fieldProps("ens")} />
         </div>
       </FormField>
     </div>
 
-    <Label className="mt-6 flex items-center gap-2 leading-5 font-normal">
+    <Label className="mt-6 flex min-h-11 cursor-pointer items-center gap-3 leading-6 font-normal">
       <Checkbox
         variant="circle"
         checked={wallet.slot === "secondary"}
@@ -119,8 +119,8 @@ export function CollectorFields ({ form, wallet, provider, onProviderChange, onW
       /> Usar outra carteira?
     </Label>
 
-    <FormField className="mt-6 max-w-87.5" variant="checkout" id="purchase-notes" label="Observação do colecionador (opcional)" error={errors.notes?.message}>
-      <textarea className="h-38 w-full resize-y rounded-input border border-border bg-transparent p-3 text-sm" {...fieldProps("notes")} maxLength={1000} />
+    <FormField className="mt-6" variant="checkout" id="purchase-notes" label="Observação do colecionador (opcional)" error={errors.notes?.message}>
+      <textarea className="min-h-32 w-full resize-y rounded-input border border-input bg-transparent p-3 text-sm" {...fieldProps("notes")} maxLength={1000} />
     </FormField>
   </div>
 }

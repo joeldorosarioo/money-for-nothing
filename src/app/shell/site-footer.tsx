@@ -44,46 +44,46 @@ const socials = [
 
 export function SiteFooter () {
   return (
-    <footer className="mt-24 hidden desktop:block" id="rodape">
-      <div className="min-h-143.5 bg-card">
-        <div className="grid min-h-62.5 grid-cols-[repeat(3,minmax(0,264.6667fr))_minmax(0,357fr)] gap-px pt-8 pr-3.5 pb-4 pl-8">
+    <footer className="mt-section hidden desktop:block" id="rodape">
+      <div className="rounded-artwork bg-card">
+        <div className="grid grid-cols-2 gap-6 wide:p-8 p-6 wide:p-8 wide:grid-cols-4 wide:gap-6">
           {benefits.map(([letter, title, description]) => (
-            <section key={title} className="relative px-4 after:absolute after:top-0 after:-right-px after:h-50.5 after:w-px after:bg-primary after:content-['']">
-              <span className="flex size-18.5 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground" aria-hidden="true">
+            <section key={title} className="min-w-0">
+              <span className="flex size-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground" aria-hidden="true">
                 {letter}
               </span>
 
-              <h3 className="mt-3 mb-2 text-[17px] leading-5 font-bold wide:whitespace-nowrap">{title}</h3>
-              <p className="w-51 max-w-full text-sm leading-5.5 text-muted-foreground">{description}</p>
+              <h3 className="mt-4 mb-2 text-base leading-6 font-bold">{title}</h3>
+              <p className="max-w-80 text-sm leading-6 text-muted-foreground">{description}</p>
             </section>
           ))}
 
-          <section className="px-4">
+          <section className="min-w-0">
             <h3 className="text-lg leading-6 font-bold">Antecipe-se ao próximo lançamento</h3>
 
             <FeatureNotice title="Alertas de lançamentos">
-              <Button className="min-h-10 w-full justify-between bg-card p-0" variant="ghost">
-                <span className="pl-2.75 text-sm font-normal text-secondary">digite seu e-mail...</span>
-                <strong className="h-10 bg-primary px-3.75 py-2 text-lg text-primary-foreground">Enviar</strong>
+              <Button className="mt-3 min-h-11 w-full justify-between gap-2 border-panel-border bg-card p-0 whitespace-normal" variant="ghost">
+                <span className="min-w-0 pl-3 text-left text-sm font-normal text-secondary">digite seu e-mail...</span>
+                <strong className="flex min-h-11 shrink-0 items-center bg-primary px-3 text-sm text-primary-foreground">Enviar</strong>
               </Button>
             </FeatureNotice>
 
-            <p className="mt-3 text-[13px] leading-4.5 text-muted-foreground">
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
               Receba lançamentos selecionados, histórias de criadores e novidades.
             </p>
           </section>
         </div>
 
-        <div className="grid h-22 grid-cols-[repeat(3,minmax(0,1fr))_228px] items-center gap-x-6 p-8 text-sm wide:gap-x-23">
-          <Link to="/" search={normalizeCatalogSearch({})} className="inline-flex min-h-8.5 items-center text-sm font-bold tracking-widest">
+        <div className="grid grid-cols-2 items-center gap-x-8 gap-y-4 border-y border-border p-6 wide:p-8 text-sm wide:grid-cols-4">
+          <Link to="/" search={normalizeCatalogSearch({})} className="inline-flex min-h-11 items-center text-sm font-bold tracking-widest">
             KURIO
           </Link>
 
-          <p className="whitespace-nowrap leading-5.5">Feito para colecionadores,<br />criadores e cultura</p>
-          <a href="mailto:contato@email.com">contato@email.com</a><a href="tel:+551140028922">+55 11 4002 8922</a>
+          <p className="leading-6">Feito para colecionadores,<br />criadores e cultura</p>
+          <a className="inline-flex min-h-11 items-center break-all" href="mailto:contato@email.com">contato@email.com</a><a className="inline-flex min-h-11 items-center" href="tel:+551140028922">+55 11 4002 8922</a>
         </div>
 
-        <div className="grid min-h-59 grid-cols-[repeat(3,minmax(0,1fr))_228px] gap-x-6 p-8 text-sm leading-7.5 wide:gap-x-23 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:leading-4 [&_h3]:font-bold [&_section>a]:block [&_section>a]:text-left [&_section>button]:block [&_section>button]:text-left">
+        <div className="grid grid-cols-2 gap-6 wide:p-8 p-6 wide:p-8 text-sm leading-6 wide:grid-cols-4 [&_h3]:mb-3 [&_h3]:text-base [&_h3]:leading-6 [&_h3]:font-bold [&_section]:min-w-0 [&_section>a]:flex [&_section>a]:min-h-11 [&_section>a]:items-center [&_section>a]:text-left [&_section>button]:block [&_section>button]:min-h-11 [&_section>button]:text-left [&_a:hover]:text-accent [&_button:hover]:text-accent">
           <section>
             <h3>Meu perfil</h3>
             <Link to="/profile">Meu perfil</Link>
@@ -118,10 +118,10 @@ export function SiteFooter () {
           <section>
             <h3>Redes sociais</h3>
 
-            <div className="mt-3 mb-8 flex gap-2.5">
+            <div className="mt-3 mb-8 flex flex-wrap gap-2">
               {socials.map(([label, asset]) => (
                 <FeatureNotice key={label} title={label}>
-                  <button aria-label={label}>
+                  <button className="flex size-11 items-center justify-center rounded-control hover:bg-raised" aria-label={label}>
                     <img src={"/assets/" + asset} alt="" />
                   </button>
                 </FeatureNotice>

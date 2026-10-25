@@ -12,7 +12,7 @@ export function PasswordInput ({ className, ...props }: Omit<ComponentProps<"inp
 
       <button
         type="button"
-        className="absolute top-1/2 right-2 grid h-8 w-7 -translate-y-1/2 place-items-center"
+        className="absolute top-1/2 right-0 grid size-11 -translate-y-1/2 place-items-center rounded-control"
         aria-label={visible ? "Ocultar senha" : "Mostrar senha"}
         aria-pressed={visible}
         onClick={() => { setVisible(!visible) }}

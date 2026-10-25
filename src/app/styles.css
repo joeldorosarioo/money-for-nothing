@@ -14,18 +14,19 @@
   --muted: #2f1d15;
   --muted-foreground: #cfb28c;
   --border: #3f2319;
-  --input: #3f2319;
+  --input: #996744;
   --panel-border: #55321f;
   --deep: #38220f;
   --destructive: #f7bb9c;
   --overlay: #0a0604b3;
   --ring: #e89b55;
-  --radius: 4px;
-  --control-height: 40px;
+  --radius: 8px;
+  --section-space: 48px;
+  --control-height: 44px;
   --control-padding-x: 20px;
   --control-padding-y: 10px;
   --control-font-size: inherit;
-  --control-line-height: 18px;
+  --control-line-height: 20px;
 }
 
 @theme inline {
@@ -50,20 +51,27 @@
   --color-secondary-foreground: var(--foreground);
   --color-accent-foreground: var(--background);
   --color-card-foreground: var(--foreground);
-  --radius-xs: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 1px);
+  --radius-xs: 4px;
+  --radius-sm: 4px;
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: 16px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 24px;
+  --spacing-section: var(--section-space);
+  --spacing-panel: 24px;
+  --spacing-stack: 24px;
   --spacing-control: var(--control-height);
   --spacing-control-x: var(--control-padding-x);
   --spacing-control-y: var(--control-padding-y);
   --text-control: var(--control-font-size);
   --leading-control: var(--control-line-height);
   --radius-control: var(--radius);
-  --radius-input: calc(var(--radius) - 1px);
-  --radius-dialog: 12px;
-  --radius-artwork: 15px;
-  --radius-sheet: 40px;
+  --radius-input: var(--radius);
+  --radius-dialog: 16px;
+  --radius-artwork: 16px;
+  --radius-sheet: 24px;
   --shadow-xs: 0 0 #0000;
   --shadow-sm: 0 0 #0000;
   --shadow-lg: 0 0 #0000;
@@ -93,8 +101,8 @@
 
   body {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.45;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   h1,
@@ -139,6 +147,18 @@
     display: block;
   }
 
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  input[type="number"],
+  input[type="range"],
+  dd {
+    font-variant-numeric: tabular-nums;
+  }
+
   [data-slot="dialog-overlay"] {
     background-color: var(--overlay);
   }
@@ -167,11 +187,25 @@
   html {
     scrollbar-color: var(--secondary) var(--card);
     scroll-behavior: smooth;
+    scroll-padding-bottom: 7rem;
+  }
+
+  a,
+  button,
+  input,
+  select {
+    scroll-margin-block: 1rem 7rem;
   }
 
   @media (width < 64rem) {
     body {
-      font-size: 14px;
+      font-size: 15px;
+    }
+  }
+
+  @media (width >= 64rem) {
+    :root {
+      --section-space: 64px;
     }
   }
 

@@ -1,4 +1,5 @@
 import { createRootRouteWithContext, createRoute, createRouter, Link, Navigate, Outlet, useRouterState, type SearchSchemaInput } from "@tanstack/react-router";
+import { Heart, House, ShoppingBag, Store, UserRound } from "lucide-react";
 
 import React, { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { AuthDialogProvider, useAuth, useAuthDialog } from "../features/auth/index";
@@ -134,13 +135,13 @@ function RootShell () {
       </a>
 
       <div className={cn(
-        "mx-auto w-full px-6 pb-37.5 tablet:max-w-200",
+        "mx-auto w-full px-5 pb-32 tablet:max-w-200 tablet:px-6",
         "desktop:w-[min(1200px,calc(100%-48px))] desktop:max-w-none desktop:px-0 desktop:py-6",
-        isAuth && "hidden desktop:block desktop:min-h-495.25",
-        isAccount && "pt-6 pb-15 desktop:py-6",
-        isDetail && "px-0 pb-45 tablet:max-w-150 desktop:max-w-none desktop:py-6",
-        isCheckout && "px-7 pt-8 pb-8 desktop:py-6",
-        isCart && "px-7 pt-8 pb-90 desktop:px-0 desktop:py-6",
+        isAuth && "hidden desktop:block desktop:min-h-screen",
+        isAccount && "pt-6 pb-16 desktop:py-6",
+        isDetail && "px-0 pb-56 tablet:max-w-150 desktop:max-w-none desktop:py-6",
+        isCheckout && "px-5 pt-6 pb-8 tablet:px-6 desktop:px-0 desktop:py-6",
+        isCart && "px-5 pt-6 pb-12 tablet:px-6 desktop:px-0 desktop:py-6",
       )}>
         <SiteHeader bordered={!isAuth && !isDetail && !isCart && !isCheckout} />
 
@@ -162,32 +163,36 @@ function RootShell () {
 
 function MobileTabBar () {
   const { cart } = useCart()
+  const hash = useRouterState({ select: (state) => state.location.hash })
 
   const count = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
   return (
-    <nav className="pointer-events-none fixed bottom-0 left-0 z-30 flex h-31.5 w-full items-end justify-between px-8 pb-8.75 desktop:hidden" aria-label="Navegação principal">
-      <img className="absolute -bottom-5 left-1/2 -z-1 h-[154.95px] w-[calc(100%+60px)] max-w-none -translate-x-1/2" src="/assets/3b81f.svg" alt="" />
-
-      <Link className="pointer-events-auto flex h-7 min-w-7 items-center justify-center" to="/" search={normalizeCatalogSearch({})} aria-label="Início">
-        <img src="/assets/b096d.svg" alt="" />
+    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 items-end gap-1 border-t border-panel-border bg-card px-2 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] text-xs text-muted-foreground shadow-dock desktop:hidden [&_a]:flex [&_a]:min-h-14 [&_a]:min-w-11 [&_a]:flex-col [&_a]:items-center [&_a]:justify-center [&_a]:gap-1 [&_a]:rounded-control [&_a:hover]:text-accent" aria-label="Navegação principal">
+      <Link to="/" search={normalizeCatalogSearch({})} aria-label="Início" aria-current={!hash ? "page" : undefined} className={cn(!hash && "font-bold text-accent")}>
+        <House className="size-5" aria-hidden="true" />
+        <span>Início</span>
       </Link>
 
-      <Link className="pointer-events-auto flex h-7 min-w-7 items-center justify-center" to="/favorites" aria-label="Meus favoritos">
-        <img src="/assets/figma-mobile-heart.svg" alt="" />
+      <Link to="/favorites" aria-label="Meus favoritos">
+        <Heart className="size-5" aria-hidden="true" />
+        <span>Favoritos</span>
       </Link>
 
-      <Link to="/cart" className="pointer-events-auto mt-0 flex size-16.25 min-w-7 items-center justify-center self-start rounded-full bg-primary text-primary-foreground" aria-label={"Carrinho, " + count.toString() + " itens"}>
-        <img src="/assets/figma-mobile-mark.svg" alt="" />
-        {count > 0 && <span className="absolute top-3.5 ml-7.5 text-[10px]">{count}</span>}
+      <Link to="/cart" className="relative bg-primary text-primary-foreground hover:text-primary-foreground!" aria-label={"Carrinho, " + count.toString() + " itens"}>
+        <ShoppingBag className="size-5" aria-hidden="true" />
+        <span>Carrinho</span>
+        {count > 0 && <span aria-hidden="true" className="absolute -top-2 right-0 min-w-5 rounded-full bg-foreground px-1 text-center text-xs leading-5 text-background">{count}</span>}
       </Link>
 
-      <Link className="pointer-events-auto flex h-7 min-w-7 items-center justify-center" to="/" search={normalizeCatalogSearch({})} hash="catalogo" aria-label="Mercado">
-        <img src="/assets/figma-mobile-shop.svg" alt="" />
+      <Link to="/" search={normalizeCatalogSearch({})} hash="catalogo" aria-label="Mercado" aria-current={hash === "catalogo" ? "location" : undefined} className={cn(hash === "catalogo" && "font-bold text-accent")}>
+        <Store className="size-5" aria-hidden="true" />
+        <span>Mercado</span>
       </Link>
 
-      <Link className="pointer-events-auto flex h-7 min-w-7 items-center justify-center" to="/profile" aria-label="Meu perfil">
-        <img src="/assets/figma-mobile-user.svg" alt="" />
+      <Link to="/profile" aria-label="Meu perfil">
+        <UserRound className="size-5" aria-hidden="true" />
+        <span>Perfil</span>
       </Link>
     </nav>
   )

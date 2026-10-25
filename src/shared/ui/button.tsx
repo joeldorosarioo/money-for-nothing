@@ -15,8 +15,8 @@ const buttonVariants = cva("focus-visible:ring-ring/50 aria-invalid:border-destr
 
     size: {
       default: "has-[>svg]:px-3 h-auto min-h-control px-control-x py-control-y",
-      small: "has-[>svg]:px-2.5 h-auto min-h-8.75 px-3 py-1.75",
-      icon: "size-8 min-h-8 p-0",
+      small: "has-[>svg]:px-2.5 h-auto min-h-11 px-3 py-2",
+      icon: "size-11 min-h-11 p-0",
     },
   },
 

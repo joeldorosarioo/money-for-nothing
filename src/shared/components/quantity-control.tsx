@@ -9,17 +9,17 @@ const controlVariants = cva("inline-flex items-center", {
     variant: {
       detail: "gap-3",
       mobile: "gap-2",
-      cart: "absolute right-3 bottom-8.75 gap-1.5 desktop:static desktop:gap-2",
+      cart: "col-start-2 row-start-3 gap-1 desktop:col-auto desktop:row-auto desktop:gap-1",
     },
   },
 })
 
-const stepVariants = cva("p-0 text-primary-foreground bg-primary hover:enabled:bg-primary rounded-[20px] disabled:opacity-100", {
+const stepVariants = cva("size-11 min-h-11 shrink-0 rounded-control p-0 text-2xl leading-6 disabled:opacity-45", {
   variants: {
     variant: {
-      detail: "h-10 min-h-10 w-6 text-[26px] leading-6",
-      mobile: "h-7.5 min-h-7.5 w-5 text-xl leading-6",
-      cart: "size-6 min-h-6 rounded-full border-panel-border bg-deep text-foreground text-xl leading-6 hover:enabled:bg-deep desktop:h-7 desktop:min-h-7 desktop:w-5 desktop:border-transparent desktop:bg-primary desktop:text-primary-foreground desktop:hover:enabled:bg-primary"
+      detail: "bg-primary text-primary-foreground hover:enabled:bg-accent",
+      mobile: "bg-primary text-primary-foreground hover:enabled:bg-accent",
+      cart: "border-input bg-raised text-foreground hover:enabled:bg-deep"
     },
   },
 },
@@ -58,7 +58,7 @@ export function QuantityControl ({
         step={1}
         value={quantity}
         disabled={disabled}
-        className={cn("h-7.5 min-h-7.5 w-6 min-w-6 appearance-textfield border-0 p-0 text-center text-lg [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none", variant === "cart" && "w-4.5 min-w-4.5 text-base desktop:w-6 desktop:min-w-6")}
+        className="h-11 min-h-11 w-11 min-w-11 appearance-textfield border-0 p-0 text-center text-base tabular-nums [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
 
         onChange={(event) => {
           const next = event.target.valueAsNumber

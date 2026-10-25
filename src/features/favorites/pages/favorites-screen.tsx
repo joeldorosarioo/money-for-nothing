@@ -41,7 +41,7 @@ export function FavoritesScreen ({ catalog }: { readonly catalog: CatalogApi }) 
               : query.isError
                 ? <ErrorState error={query.error} retry={() => { void query.refetch() }} />
                 : (
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-14 tablet:grid-cols-3 desktop:gap-x-5">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-8 tablet:grid-cols-3 desktop:gap-x-6">
                     {query.data.map((nft, index) => (
                       <NftCard key={nft.id} nft={nft} index={index} presentation="favorites" />
                     ))}

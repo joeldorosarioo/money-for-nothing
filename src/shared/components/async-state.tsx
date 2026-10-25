@@ -4,7 +4,7 @@ import { explainError } from "../http/api-client-error";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 
-const stateClassName = "flex min-h-60 flex-col items-center justify-center gap-5 text-center [&_h2]:text-xl [&_h2]:font-bold"
+const stateClassName = "flex min-h-60 flex-col items-center justify-center gap-4 p-6 text-center [&_h2]:text-xl [&_h2]:font-bold"
 
 export function ErrorState ({ error, retry }: { readonly error: unknown; readonly retry: () => void }) {
   return (
@@ -23,11 +23,11 @@ export function CatalogSkeleton () {
   return (
     <div
       role="status" aria-label="Carregando NFTs" aria-busy="true"
-      className="grid grid-cols-2 gap-x-4 gap-y-6 tablet:grid-cols-3 desktop:gap-x-5 desktop:gap-y-18 wide:gap-x-8.5"
+      className="grid grid-cols-2 gap-x-4 gap-y-8 tablet:grid-cols-3 desktop:gap-x-6"
     >
       {Array.from({ length: 9 }, (_, index) => (
         <div key={index}>
-          <Skeleton className="h-75" />
+          <Skeleton className="aspect-square w-full" />
           <Skeleton className="mt-3 h-4 w-7/10" />
         </div>
       ))}

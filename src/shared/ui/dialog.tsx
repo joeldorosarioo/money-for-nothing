@@ -48,19 +48,19 @@ function DialogContent ({
       <DialogPrimitive.Content data-slot="dialog-content" className={cn(
         variant === "auth"
           ? "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg"
-          : "fixed top-1/2 left-1/2 z-61 max-h-[calc(100dvh-48px)] w-[min(500px,calc(100vw-40px))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-dialog border border-panel-border bg-card p-8",
+          : "fixed top-1/2 left-1/2 z-61 max-h-[calc(100dvh-48px)] w-[min(500px,calc(100vw-40px))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-dialog border border-panel-border bg-card p-6",
         className,
       )} {...props}>
         {children}
 
         {showCloseButton && (variant === "auth" ? (
-          <DialogClose className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+          <DialogClose className="absolute top-2 right-2 flex size-11 items-center justify-center rounded-control text-muted-foreground hover:bg-raised hover:text-foreground">
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">Fechar diálogo</span>
           </DialogClose>
         ) : (
-          <DialogClose className="absolute top-2 right-3 w-8 text-[28px] leading-8" aria-label="Fechar diálogo">
-            ×
+          <DialogClose className="absolute top-2 right-2 flex size-11 items-center justify-center rounded-control text-muted-foreground hover:bg-raised hover:text-foreground" aria-label="Fechar diálogo">
+            <XIcon className="size-5" aria-hidden="true" />
           </DialogClose>
         ))}
       </DialogPrimitive.Content>
@@ -95,7 +95,7 @@ function DialogTitle ({ className, ...props }: ComponentProps<typeof DialogPrimi
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("mb-4 text-xl leading-[inherit] font-bold", className)} {...props}
+      className={cn("mb-4 pr-8 text-xl leading-[inherit] font-bold", className)} {...props}
     />
   );
 }

@@ -18,11 +18,11 @@ export function WalletCards ({ wallets, selectedId, onSelect }: {
   readonly selectedId: string
   readonly onSelect: (id: string) => void
 }) {
-  return <fieldset className="mt-4 flex flex-col gap-5">
+  return <fieldset className="mt-4 flex flex-col gap-4">
     <legend className="sr-only">Carteira para a compra</legend>
 
     {[...wallets].sort((a, b) => a.slot === b.slot ? 0 : a.slot === "secondary" ? -1 : 1).map((wallet) => (
-      <label key={wallet.id} className="relative flex min-h-23.25 cursor-pointer items-center gap-4.75 rounded-artwork bg-card px-4.75 py-3">
+      <label key={wallet.id} className="relative flex min-h-24 cursor-pointer items-center gap-4 rounded-artwork bg-card p-4">
         <input
           className={radioClassName}
           type="radio"
@@ -35,7 +35,7 @@ export function WalletCards ({ wallets, selectedId, onSelect }: {
         <span className="min-w-0">
           <strong className="text-base leading-5">{wallet.slot === "primary" ? "Principal" : "Reserva"}</strong>
 
-          <span className="mt-1 block text-sm leading-5.5 text-muted-foreground">
+          <span className="mt-1 block text-sm leading-6 text-muted-foreground">
             {shortenAddress(wallet.address)}<br />{networkLabels[wallet.network]}
           </span>
         </span>
@@ -51,15 +51,15 @@ export function WalletOptions ({ provider, network, onChange, disabled = false }
   readonly disabled?: boolean
 }) {
   return <fieldset className="mt-4 desktop:mt-0">
-    <legend className="mb-3 text-base leading-5 font-bold desktop:mb-4 desktop:w-full desktop:text-center desktop:text-[17px]">
+    <legend className="mb-4 text-base leading-6 font-bold desktop:w-full">
       Carteira e rede
     </legend>
 
     <div className="flex flex-col gap-4">
       {providers.map((item) => (
         <label key={item.id} className={cn(
-          "relative flex h-16.25 cursor-pointer items-center gap-3 rounded-artwork bg-card px-3.5 text-sm",
-          "desktop:h-11.25 desktop:flex-row-reverse desktop:justify-end desktop:rounded-input desktop:border desktop:border-border desktop:bg-transparent desktop:px-2.5 desktop:text-[15px]",
+          "relative flex min-h-16 cursor-pointer items-center gap-3 rounded-input bg-card p-4 text-sm",
+          "desktop:min-h-12 desktop:flex-row-reverse desktop:justify-end desktop:border desktop:border-input desktop:bg-transparent desktop:px-3 desktop:py-2 desktop:text-[15px]",
           provider === item.id && "desktop:border-primary", (disabled || (network === "solana" && item.id !== "walletconnect")) && "cursor-not-allowed opacity-45",
         )}>
           <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-raised text-accent desktop:hidden">

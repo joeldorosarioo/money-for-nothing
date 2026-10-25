@@ -146,29 +146,29 @@ export function CheckoutForm ({
 
   return (
     <div>
-      <p className="mt-8 mb-8 hidden text-[15px] leading-4 font-bold desktop:block">Início / Mercado / Pagamento</p>
+      <p className="my-8 hidden text-sm leading-6 font-bold desktop:block">Início / Mercado / Pagamento</p>
 
-      <div className="mb-4 flex h-11 items-start gap-6 desktop:hidden">
+      <div className="mb-6 flex min-h-11 items-center gap-4 desktop:hidden">
         <Link
           to="/cart" aria-label="Voltar ao carrinho"
-          className="flex size-8.75 shrink-0 items-center justify-center rounded-full border border-border bg-raised [&_img]:rotate-90"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full border border-input bg-raised [&_img]:rotate-90"
         >
           <img src="/assets/0e8e8.svg" alt="" />
         </Link>
 
-        <h1 className="pt-1.75 text-xl leading-6 font-bold">Pagamento com carteira</h1>
+        <h1 className="text-xl leading-7 font-bold">Pagamento com carteira</h1>
       </div>
 
       <h1 className="sr-only max-desktop:hidden">Pagamento</h1>
 
       <form
         noValidate onSubmit={(event) => { void form.handleSubmit(submit)(event) }}
-        className="flex min-h-[calc(100svh-124px)] flex-col desktop:grid desktop:min-h-0 desktop:grid-cols-[minmax(0,763fr)_minmax(0,405fr)] desktop:gap-8"
+        className="flex flex-col gap-6 desktop:grid desktop:grid-cols-[minmax(0,1fr)_360px] desktop:gap-8 wide:grid-cols-[minmax(0,1fr)_400px]"
       >
         <div className="order-2 desktop:order-0">
-          <div className="mt-5 desktop:mt-0">
+          <div>
             <button
-              className="cursor-pointer text-sm text-accent desktop:hidden"
+              className="min-h-11 cursor-pointer text-left text-sm text-accent desktop:hidden"
               type="button"
               aria-expanded={showDetails}
               aria-controls="collector-details"
@@ -177,7 +177,7 @@ export function CheckoutForm ({
               Dados do colecionador e resumo
             </button>
 
-            <div id="collector-details" className={cn("mt-5 desktop:mt-0", !showDetails && "hidden desktop:block")}>
+            <div id="collector-details" className={cn("mt-4 desktop:mt-0", !showDetails && "hidden desktop:block")}>
               <CollectorFields
                 form={form}
                 wallet={wallet}
@@ -198,8 +198,8 @@ export function CheckoutForm ({
           </div>
         </div>
 
-        <section className="contents desktop:block" aria-label="Seus NFTs e pagamento">
-          <div className="hidden desktop:block"><h2 className="mb-2 text-[17px] leading-5 font-bold">Seus NFTs</h2>
+        <section className="contents desktop:block desktop:min-w-0 desktop:self-start desktop:rounded-artwork desktop:bg-card desktop:p-6" aria-label="Seus NFTs e pagamento">
+          <div className="hidden desktop:block"><h2 className="mb-4 text-lg leading-6 font-bold">Seus NFTs</h2>
 
             {quote.isPending ? (
               <p aria-live="polite">Calculando valores…</p>
@@ -216,10 +216,10 @@ export function CheckoutForm ({
             )}
           </div>
 
-          <div className="desktop:mt-3">
-            <div className="flex items-center justify-between text-base leading-4 desktop:hidden">
+          <div className="desktop:mt-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-base leading-6 desktop:hidden">
               <h2 className="font-bold">Carteira conectada</h2>
-              <Link className="text-sm font-bold text-accent" to="/wallets">Trocar carteira</Link>
+              <Link className="inline-flex min-h-11 items-center text-sm font-bold text-accent" to="/wallets">Trocar carteira</Link>
             </div>
 
             <div className="desktop:hidden">
@@ -233,7 +233,7 @@ export function CheckoutForm ({
             Total: <strong className="ml-4 text-lg text-accent">{quote.data?.totals.total ?? "…"} ETH</strong>
           </p>
 
-          <div className="order-3 mt-4">
+          <div className="order-3 mt-4 empty:hidden">
             {quote.isError && (
               <div role="alert">
                 <p>{explainError(quote.error)}</p>
@@ -269,7 +269,7 @@ export function CheckoutForm ({
 
           <Button
             type="submit" disabled={submitting || !quote.data || quote.isError || quote.isFetching || expired || changed || reviewRequired || mismatch}
-            className="order-4 mt-auto h-15 w-full rounded-sheet text-[15px] font-bold desktop:mt-2 desktop:h-11.25 desktop:rounded-lg"
+            className="order-4 mt-2 min-h-12 w-full rounded-control text-[15px] font-bold desktop:mt-6"
           >
             {submitting ? "Confirmando…" : "Confirmar compra"}
           </Button>
