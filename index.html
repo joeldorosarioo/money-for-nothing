@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preload" href="/assets/f545d.svg" as="image" media="(width < 64rem)" fetchpriority="high" />
+
+  <link
+    type="font/woff2" rel="preload" as="font" crossorigin
+    href="/node_modules/@fontsource-variable/roboto-mono/files/roboto-mono-latin-wght-normal.woff2"
+  />
+
+  <script>
+    if (window.location.pathname === "/") {
+      const artwork = document.createElement("link");
+
+      artwork.rel = "preload";
+      artwork.as = "image";
+      artwork.media = "(width >= 64rem)";
+      artwork.href = "/assets/8f387.webp";
+
+      artwork.imageSrcset = [160, 320, 480, 768, 960]
+        .map((width) => "/assets/artwork/8f387-" + width + ".webp " + width + "w")
+        .concat("/assets/8f387.webp 1254w")
+        .join(", ");
+
+      artwork.imageSizes = "(min-width: 1331px) 450px, 400px";
+      artwork.fetchPriority = "high";
+
+      document.head.append(artwork);
+    }
+  </script>
+
+  <meta name="theme-color" content="#140d0a" />
+  <meta name="description" content="Explore NFTs selecionados, conheça criadores e colecione arte digital na Kurio." />
+  <title>Kurio — Arte digital para colecionar</title>
+</head>
+
+<body>
+  <div id="root">
+    <main>Inicializando a Kurio…</main>
+  </div>
+
+  <script type="module" src="/src/app/main.tsx"></script>
+</body>
+
+</html>

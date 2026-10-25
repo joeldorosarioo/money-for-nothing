@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20">
+	<rect fill-opacity="0" width="20" height="20"/>
+	<clipPath id="cl_f">
+		<rect width="20" height="20"/>
+	</clipPath>
+	<g clip-path="url(#cl_f)">
+		<path fill="#3B5999" transform="translate(5.15589 -7.62939e-06)" d="M8.1750002 3.3208001L10.0008 3.3208001L10.0008 0.1408C9.6857996 0.097499996 8.6025 0 7.3407998 0C1.5642 0 3.1357999 6.5416999 2.9058001 7.5L0 7.5L0 11.055L2.905 11.055L2.905 20L6.4667001 20L6.4667001 11.0558L9.2542 11.0558L9.6967001 7.5008001L6.4657998 7.5008001C6.6224999 5.1475 5.8316998 3.3208001 8.1750002 3.3208001L8.1750002 3.3208001Z"/>
+	</g>
+</svg>

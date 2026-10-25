@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@source "../";
+@import "@fontsource-variable/roboto-mono";
+
+:root {
+  --background: #140d0a;
+  --foreground: #f5f1eb;
+  --card: #241612;
+  --raised: #2f1d15;
+  --primary: #d28a4c;
+  --primary-foreground: #140d0a;
+  --accent: #e89b55;
+  --secondary: #b39463;
+  --muted: #2f1d15;
+  --muted-foreground: #cfb28c;
+  --border: #3f2319;
+  --input: #3f2319;
+  --panel-border: #55321f;
+  --deep: #38220f;
+  --destructive: #f7bb9c;
+  --overlay: #0a0604b3;
+  --ring: #e89b55;
+  --radius: 4px;
+  --control-height: 40px;
+  --control-padding-x: 20px;
+  --control-padding-y: 10px;
+  --control-font-size: inherit;
+  --control-line-height: 18px;
+}
+
+@theme inline {
+  --font-mono: "Roboto Mono Variable", "Roboto Mono", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-raised: var(--raised);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-panel-border: var(--panel-border);
+  --color-deep: var(--deep);
+  --color-destructive: var(--destructive);
+  --color-overlay: var(--overlay);
+  --color-ring: var(--ring);
+  --color-secondary-foreground: var(--foreground);
+  --color-accent-foreground: var(--background);
+  --color-card-foreground: var(--foreground);
+  --radius-xs: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 1px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --spacing-control: var(--control-height);
+  --spacing-control-x: var(--control-padding-x);
+  --spacing-control-y: var(--control-padding-y);
+  --text-control: var(--control-font-size);
+  --leading-control: var(--control-line-height);
+  --radius-control: var(--radius);
+  --radius-input: calc(var(--radius) - 1px);
+  --radius-dialog: 12px;
+  --radius-artwork: 15px;
+  --radius-sheet: 40px;
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm: 0 0 #0000;
+  --shadow-lg: 0 0 #0000;
+  --shadow-dock: 0 -8px 16px #0a060433;
+}
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 37.5rem;
+  --breakpoint-desktop: 64rem;
+  --breakpoint-wide: 83.1875rem;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    font-family: var(--font-mono);
+    color: var(--foreground);
+    background: var(--background);
+  }
+
+  body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  fieldset,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  select {
+    cursor: pointer;
+  }
+
+  button {
+    color: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+  }
+
+  [data-slot="dialog-overlay"] {
+    background-color: var(--overlay);
+  }
+
+  button:disabled,
+  input:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  ::selection {
+    color: var(--background);
+    background: var(--accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  input,
+  textarea {
+    caret-color: var(--accent);
+  }
+
+  html {
+    scrollbar-color: var(--secondary) var(--card);
+    scroll-behavior: smooth;
+  }
+
+  @media (width < 64rem) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
