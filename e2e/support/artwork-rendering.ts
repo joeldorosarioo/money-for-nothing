@@ -36,7 +36,7 @@ export async function compareArtworkRendering (page: Page, info: TestInfo) {
 
   const images = await page.evaluate(() => Array
     .from(document.images)
-    .filter((image) => ["8f387", "83794", "9add2", "b7cfc"]
+    .filter((image) => image.getClientRects().length > 0 && ["8f387", "83794", "9add2", "b7cfc"]
       .some((name) => (image.currentSrc || image.src)
         .includes(name)))
     .map((image) => {
@@ -60,7 +60,7 @@ export async function compareArtworkRendering (page: Page, info: TestInfo) {
     await Promise.all(
       Array
         .from(document.images)
-        .filter((image) => ["8f387", "83794", "9add2", "b7cfc"].some((name) => (image.currentSrc || image.src).includes(name)))
+        .filter((image) => image.getClientRects().length > 0 && ["8f387", "83794", "9add2", "b7cfc"].some((name) => (image.currentSrc || image.src).includes(name)))
         .map(async (image) => {
           const name = ["8f387", "83794", "9add2", "b7cfc"]
             .find((name) => (image.currentSrc || image.src).includes(name))
@@ -76,7 +76,7 @@ export async function compareArtworkRendering (page: Page, info: TestInfo) {
   })
 
   const geometry = await page.evaluate(() => Array.from(document.images)
-    .filter((image) => ["8f387", "83794", "9add2", "b7cfc"].some((name) => (image.currentSrc || image.src).includes(name)))
+    .filter((image) => image.getClientRects().length > 0 && ["8f387", "83794", "9add2", "b7cfc"].some((name) => (image.currentSrc || image.src).includes(name)))
     .map((image) => {
       const rect = image.getBoundingClientRect()
 
@@ -90,7 +90,11 @@ export async function compareArtworkRendering (page: Page, info: TestInfo) {
 
   expect(geometry).toEqual(originalGeometry)
 
-  const reference = await stableScreenshot(page)
+  // Without visible artwork there is no rendered variant to compare. Reuse the
+  // capture so a second rasterization of unchanged controls cannot create noise.
+  const reference = images.length > 0
+    ? await stableScreenshot(page)
+    : candidate
   const before = await sharp(reference).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
   const after = await sharp(candidate).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
 

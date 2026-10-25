@@ -27,7 +27,7 @@ test("a mobile retina screen loads smaller density candidates without downloadin
     })
 
     await expect
-      .poll(() => hero.evaluate((image) => image instanceof HTMLImageElement ? new URL(image.currentSrc).pathname : ""))
+      .poll(() => hero.evaluate((image) => image instanceof HTMLImageElement && image.currentSrc ? new URL(image.currentSrc).pathname : ""))
       .toBe("/assets/artwork/8f387-320.webp")
 
     await hero.evaluate(async (image) => { if (image instanceof HTMLImageElement) await image.decode() })
@@ -39,7 +39,7 @@ test("a mobile retina screen loads smaller density candidates without downloadin
     const artwork = page.getByRole("img", { name: "Emerald Ape #042", exact: true })
 
     await expect
-      .poll(() => artwork.evaluate((image) => image instanceof HTMLImageElement ? new URL(image.currentSrc).pathname : ""))
+      .poll(() => artwork.evaluate((image) => image instanceof HTMLImageElement && image.currentSrc ? new URL(image.currentSrc).pathname : ""))
       .toBe("/assets/artwork/8f387-768.webp")
 
     await artwork.evaluate(async (image) => { if (image instanceof HTMLImageElement) await image.decode() })
