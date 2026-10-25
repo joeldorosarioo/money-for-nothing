@@ -5,6 +5,13 @@ import { ArtworkImage } from "../../../shared/components/artwork-image";
 import { FeatureNotice } from "../../../shared/components/feature-notice";
 import { cn } from "../../../shared/lib/cn";
 import { Button } from "../../../shared/ui/button";
+import { Carousel } from "../../../shared/ui/carousel";
+
+const highlights = [
+  ["8f387.webp", "Ape com óculos verdes e jaqueta esmeralda"],
+  ["83794.webp", "Sage Nomad com chapéu e moletom violeta"],
+  ["9add2.webp", "Neon Vessel com jaqueta clara"],
+] as const
 
 const articles = [
   ["9add2.webp", "12 de setembro | Leitura de 6 min", "Como funciona a propriedade de NFTs", "Aprenda a colecionar, negociar e verificar ativos digitais."],
@@ -53,23 +60,34 @@ export function HomeHero ({ compactCopy = false }: { readonly compactCopy?: bool
         </a>
       </div>
 
-      <div className="relative min-w-0">
-        <ArtworkImage
-          className="aspect-square h-auto w-full rounded-artwork object-cover"
-          sizes={heroArtworkSizes}
-          src="/assets/8f387.webp"
-          alt="Ape com óculos verdes e jaqueta esmeralda"
-          fetchPriority="high"
-        />
-        <ArtworkImage
-          sizes="58px"
-          className="absolute bottom-3 left-3 size-14.5 rounded-control border-4 border-card object-cover desktop:hidden"
-          src="/assets/83794.webp"
-          alt=""
-          fetchPriority="low"
-          loading="lazy"
-        />
-      </div>
+      <Carousel
+        label="Destaques da coleção"
+        controlsClassName="absolute bottom-[5.5px] left-1/2 mt-0 h-1.75 -translate-x-1/2 gap-1.5 desktop:bottom-11.25 desktop:left-150 desktop:h-2 desktop:translate-x-0 desktop:gap-1.75"
+        indicatorClassName="size-1.75 border-0 bg-panel-border desktop:size-2 desktop:bg-primary"
+      >
+        {highlights.map(([asset, alt], index) => (
+          <div className="relative" key={asset}>
+            <ArtworkImage
+              className="aspect-square h-auto w-full rounded-artwork object-cover"
+              sizes={heroArtworkSizes}
+              src={"/assets/" + asset}
+              alt={alt}
+              deferUntilVisible={index > 0}
+              fetchPriority={index === 0 ? "high" : "low"}
+            />
+            {index === 0 && (
+              <ArtworkImage
+                sizes="58px"
+                className="absolute bottom-3 left-3 size-14.5 rounded-control border-4 border-card object-cover desktop:hidden"
+                src="/assets/83794.webp"
+                alt=""
+                fetchPriority="low"
+                loading="lazy"
+              />
+            )}
+          </div>
+        ))}
+      </Carousel>
     </section>
   )
 }
